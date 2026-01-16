@@ -7,7 +7,6 @@
 
 <style>
 :root {
-    /* DARK (PADRÃO) */
     --bg-1: #0b0f14;
     --bg-2: #0f1f24;
     --bg-3: #1a1a1a;
@@ -19,7 +18,6 @@
     --text-main: #e6e6e6;
 }
 
-/* LIGHT */
 body.light {
     --bg-1: #f5f7ff;
     --bg-2: #e6f0ff;
@@ -74,13 +72,7 @@ body {
     background: var(--bg-box);
     text-align: center;
     border-radius: 14px;
-    animation: fade 0.4s ease;
     position: relative;
-}
-
-@keyframes fade {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
 }
 
 h1 {
@@ -88,7 +80,6 @@ h1 {
     text-shadow: 0 0 8px var(--neon-main);
 }
 
-/* BOTÕES */
 .buttons {
     margin-top: 2rem;
     display: flex;
@@ -124,7 +115,21 @@ h1 {
     color: gray;
 }
 
-/* TOGGLE TEMA */
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    margin: 20px 0;
+    font-size: 0.95rem;
+}
+
+.checkbox input {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
 .theme-toggle {
     position: absolute;
     top: 15px;
@@ -156,7 +161,6 @@ body.light .toggle-circle {
     transform: translateX(26px);
 }
 
-/* TELAS */
 .screen { display: none; }
 .screen.active { display: block; }
 </style>
@@ -168,57 +172,68 @@ body.light .toggle-circle {
 
 <div class="box">
 
-    <!-- TOGGLE -->
-    <div class="theme-toggle" id="themeToggle">
-        <div class="toggle-circle"></div>
+<div class="theme-toggle" id="themeToggle">
+    <div class="toggle-circle"></div>
+</div>
+
+<div class="screen active" id="home">
+    <h1>⚡ Dominik Menu ⚡</h1>
+    <p>Escolha uma opção</p>
+
+    <div class="buttons">
+        <button class="btn" onclick="openScreen('start')">Iniciar</button>
+        <button class="btn" onclick="openScreen('about')">Sobre</button>
+        <button class="btn" onclick="openScreen('contact')">Contato</button>
+    </div>
+</div>
+
+<div class="screen" id="start">
+    <h1>🚀 Menu Principal</h1>
+    <div class="buttons">
+        <button class="btn" onclick="openScreen('games')">Jogos</button>
+        <button class="btn" onclick="openScreen('discord')">Discord Group</button>
+        <button class="btn disabled">Mais em breve...</button>
+    </div>
+    <button class="btn" onclick="openScreen('home')">Voltar</button>
+</div>
+
+<div class="screen" id="games">
+    <h1>🎮 Jogos</h1>
+    <p>Por enquanto fora de serviço.</p>
+    <button class="btn" onclick="openScreen('start')">Voltar</button>
+</div>
+
+<div class="screen" id="discord">
+    <h1>💬 Discord Group</h1>
+
+    <p><strong>Nome:</strong> Os Guri</p>
+    <p><strong>Descrição:</strong> Um server focado em zoeira</p>
+    <p><strong>Regras:</strong> Respeito, sem spam e sem links suspeitos</p>
+    <p><strong>Benefícios:</strong> Avisos, eventos, calls e interação</p>
+
+    <div class="checkbox">
+        <input type="checkbox" id="confirmDiscord" onclick="toggleDiscord()">
+        <label for="confirmDiscord">Eu entendo e desejo entrar no servidor</label>
     </div>
 
-    <!-- HOME -->
-    <div class="screen active" id="home">
-        <h1>⚡ Dominik Menu ⚡</h1>
-        <p>Escolha uma opção</p>
+    <a href="https://discord.gg/9EdGdHRnGE" target="_blank" style="text-decoration:none;">
+        <button class="btn disabled" id="discordBtn" disabled>Entrar no Servidor</button>
+    </a>
 
-        <div class="buttons">
-            <button class="btn" onclick="openScreen('start')">Iniciar</button>
-            <button class="btn" onclick="openScreen('about')">Sobre</button>
-            <button class="btn" onclick="openScreen('contact')">Contato</button>
-        </div>
-    </div>
+    <button class="btn" style="margin-top:20px;" onclick="openScreen('start')">Voltar</button>
+</div>
 
-    <div class="screen" id="start">
-        <h1>🚀 Menu Principal</h1>
-        <div class="buttons">
-            <button class="btn" onclick="openScreen('games')">Jogos</button>
-            <button class="btn" onclick="openScreen('discord')">Discord Group</button>
-            <button class="btn disabled">Mais em breve...</button>
-        </div>
-        <button class="btn" onclick="openScreen('home')">Voltar</button>
-    </div>
+<div class="screen" id="about">
+    <h1>🧠 Sobre</h1>
+    <p>Projeto cyber focado em visual e interação.</p>
+    <button class="btn" onclick="openScreen('home')">Voltar</button>
+</div>
 
-    <div class="screen" id="games">
-        <h1>🎮 Jogos</h1>
-        <p>Por enquanto fora de serviço.</p>
-        <button class="btn" onclick="openScreen('start')">Voltar</button>
-    </div>
-
-    <div class="screen" id="discord">
-        <h1>💬 Discord Group</h1>
-        <p><b>Nome:</b> Os Guri</p>
-        <p>Um server focado em zoeira</p>
-        <button class="btn" onclick="openScreen('start')">Voltar</button>
-    </div>
-
-    <div class="screen" id="about">
-        <h1>🧠 Sobre</h1>
-        <p>Projeto cyber focado em visual e interação.</p>
-        <button class="btn" onclick="openScreen('home')">Voltar</button>
-    </div>
-
-    <div class="screen" id="contact">
-        <h1>📡 Contato</h1>
-        <p>Discord: sh4dow05__</p>
-        <button class="btn" onclick="openScreen('home')">Voltar</button>
-    </div>
+<div class="screen" id="contact">
+    <h1>📡 Contato</h1>
+    <p>Discord: sh4dow05__</p>
+    <button class="btn" onclick="openScreen('home')">Voltar</button>
+</div>
 
 </div>
 
@@ -226,6 +241,19 @@ body.light .toggle-circle {
 function openScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
+}
+
+function toggleDiscord() {
+    const check = document.getElementById('confirmDiscord');
+    const btn = document.getElementById('discordBtn');
+
+    if (check.checked) {
+        btn.classList.remove('disabled');
+        btn.disabled = false;
+    } else {
+        btn.classList.add('disabled');
+        btn.disabled = true;
+    }
 }
 
 const toggle = document.getElementById("themeToggle");
@@ -237,7 +265,6 @@ if (localStorage.getItem("theme") === "light") {
 
 toggle.onclick = () => {
     document.body.classList.toggle("light");
-
     sound.currentTime = 0;
     sound.volume = 0.3;
     sound.play();
@@ -251,4 +278,3 @@ toggle.onclick = () => {
 
 </body>
 </html>
-
