@@ -7,11 +7,29 @@
 
 <style>
 :root {
-    --bg-dark: #0b0f14;
+    /* DARK (PADRÃO) */
+    --bg-1: #0b0f14;
+    --bg-2: #0f1f24;
+    --bg-3: #1a1a1a;
+    --bg-4: #200810;
+
     --bg-box: rgba(15, 20, 28, 0.85);
     --neon-main: #00b3b3;
     --neon-red: #ff0033;
     --text-main: #e6e6e6;
+}
+
+/* LIGHT */
+body.light {
+    --bg-1: #f5f7ff;
+    --bg-2: #e6f0ff;
+    --bg-3: #ffffff;
+    --bg-4: #fff4cc;
+
+    --bg-box: rgba(255, 255, 255, 0.85);
+    --neon-main: #4da6ff;
+    --neon-red: #ffd84d;
+    --text-main: #0a0a0a;
 }
 
 * { box-sizing: border-box; }
@@ -21,10 +39,10 @@ body {
     min-height: 100vh;
     background: linear-gradient(
         270deg,
-        #0b0f14,
-        #0f1f24,
-        #1a1a1a,
-        #200810
+        var(--bg-1),
+        var(--bg-2),
+        var(--bg-3),
+        var(--bg-4)
     );
     background-size: 600% 600%;
     animation: cyber 14s ease infinite;
@@ -36,6 +54,7 @@ body {
     color: var(--text-main);
     font-family: Arial, sans-serif;
     padding: 20px;
+    transition: 0.4s ease;
 }
 
 @keyframes cyber {
@@ -56,6 +75,7 @@ body {
     text-align: center;
     border-radius: 14px;
     animation: fade 0.4s ease;
+    position: relative;
 }
 
 @keyframes fade {
@@ -64,15 +84,8 @@ body {
 }
 
 h1 {
-    font-size: clamp(1.5rem, 4vw, 2.2rem);
-    margin-bottom: 1rem;
     color: var(--neon-main);
     text-shadow: 0 0 8px var(--neon-main);
-}
-
-p {
-    font-size: 1.05rem;
-    opacity: 0.9;
 }
 
 /* BOTÕES */
@@ -81,10 +94,6 @@ p {
     display: flex;
     flex-direction: column;
     gap: 15px;
-}
-
-.buttons .btn {
-    width: 100%;
 }
 
 .btn {
@@ -108,10 +117,6 @@ p {
     transform: scale(1.05);
 }
 
-.btn:active {
-    transform: scale(0.95);
-}
-
 .btn.disabled {
     opacity: 0.25;
     cursor: not-allowed;
@@ -119,26 +124,36 @@ p {
     color: gray;
 }
 
-.btn.disabled:hover {
-    background: transparent;
-    box-shadow: none;
-    transform: none;
-}
-
-/* CHECKBOX */
-.checkbox {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    justify-content: center;
-    margin: 20px 0;
-    font-size: 0.95rem;
-}
-
-.checkbox input {
-    width: 18px;
-    height: 18px;
+/* TOGGLE TEMA */
+.theme-toggle {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 55px;
+    height: 28px;
+    background: linear-gradient(135deg, #222, #444);
+    border-radius: 50px;
     cursor: pointer;
+    box-shadow: 0 0 10px var(--neon-main);
+}
+
+.toggle-circle {
+    width: 22px;
+    height: 22px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 3px;
+    left: 4px;
+    transition: 0.3s ease;
+}
+
+body.light .theme-toggle {
+    background: linear-gradient(135deg, #4da6ff, #ffd84d);
+}
+
+body.light .toggle-circle {
+    transform: translateX(26px);
 }
 
 /* TELAS */
@@ -149,7 +164,14 @@ p {
 
 <body>
 
+<audio id="themeSound" src="toggle.mp3" preload="auto"></audio>
+
 <div class="box">
+
+    <!-- TOGGLE -->
+    <div class="theme-toggle" id="themeToggle">
+        <div class="toggle-circle"></div>
+    </div>
 
     <!-- HOME -->
     <div class="screen active" id="home">
@@ -163,53 +185,35 @@ p {
         </div>
     </div>
 
-    <!-- MENU -->
     <div class="screen" id="start">
         <h1>🚀 Menu Principal</h1>
-        <p>Escolha uma opção abaixo</p>
-
         <div class="buttons">
             <button class="btn" onclick="openScreen('games')">Jogos</button>
             <button class="btn" onclick="openScreen('discord')">Discord Group</button>
             <button class="btn disabled">Mais em breve...</button>
         </div>
-
-        <button class="btn" style="margin-top:20px;" onclick="openScreen('home')">Voltar</button>
+        <button class="btn" onclick="openScreen('home')">Voltar</button>
     </div>
 
-    <!-- JOGOS -->
     <div class="screen" id="games">
         <h1>🎮 Jogos</h1>
         <p>Por enquanto fora de serviço.</p>
         <button class="btn" onclick="openScreen('start')">Voltar</button>
     </div>
 
-    <!-- DISCORD -->
     <div class="screen" id="discord">
         <h1>💬 Discord Group</h1>
-        <p><strong>Nome:</strong> Os Guri</p>
-        <p><strong>Descrição:</strong> Um server focado em zoeira</p>
-
-        <div class="checkbox">
-            <input type="checkbox" id="confirmDiscord" onclick="toggleDiscord()">
-            <label for="confirmDiscord">Eu entendo e desejo entrar no servidor</label>
-        </div>
-
-        <a href="https://discord.gg/9EdGdHRnGE" target="_blank" style="text-decoration:none;">
-            <button class="btn disabled" id="discordBtn" disabled>Servidor</button>
-        </a>
-
-        <button class="btn" style="margin-top:20px;" onclick="openScreen('start')">Voltar</button>
+        <p><b>Nome:</b> Os Guri</p>
+        <p>Um server focado em zoeira</p>
+        <button class="btn" onclick="openScreen('start')">Voltar</button>
     </div>
 
-    <!-- SOBRE -->
     <div class="screen" id="about">
         <h1>🧠 Sobre</h1>
-        <p>Projeto cyber focado em visual, interação e presença digital.</p>
+        <p>Projeto cyber focado em visual e interação.</p>
         <button class="btn" onclick="openScreen('home')">Voltar</button>
     </div>
 
-    <!-- CONTATO -->
     <div class="screen" id="contact">
         <h1>📡 Contato</h1>
         <p>Discord: sh4dow05__</p>
@@ -220,25 +224,31 @@ p {
 
 <script>
 function openScreen(id) {
-    document.querySelectorAll('.screen').forEach(screen => {
-        screen.classList.remove('active');
-    });
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
 }
 
-function toggleDiscord() {
-    const check = document.getElementById('confirmDiscord');
-    const btn = document.getElementById('discordBtn');
+const toggle = document.getElementById("themeToggle");
+const sound = document.getElementById("themeSound");
 
-    if (check.checked) {
-        btn.classList.remove('disabled');
-        btn.disabled = false;
-    } else {
-        btn.classList.add('disabled');
-        btn.disabled = true;
-    }
+if (localStorage.getItem("theme") === "light") {
+    document.body.classList.add("light");
 }
+
+toggle.onclick = () => {
+    document.body.classList.toggle("light");
+
+    sound.currentTime = 0;
+    sound.volume = 0.3;
+    sound.play();
+
+    localStorage.setItem(
+        "theme",
+        document.body.classList.contains("light") ? "light" : "dark"
+    );
+};
 </script>
 
 </body>
 </html>
+
