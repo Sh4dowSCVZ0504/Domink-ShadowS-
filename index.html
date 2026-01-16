@@ -182,7 +182,9 @@ body.light .toggle-circle {
 </head>
 <body>
 
+<!-- Sons -->
 <audio id="themeSound" src="toggle.mp3" preload="auto"></audio>
+<audio id="bgMusic" src="musica.mp3" autoplay loop preload="auto"></audio>
 
 <div class="box">
 
@@ -291,6 +293,9 @@ body.light .toggle-circle {
 
 <script>
 const sound = document.getElementById("themeSound");
+const bgMusic = document.getElementById("bgMusic");
+bgMusic.volume = 0.2; // Volume da música de fundo
+
 if(localStorage.getItem("theme")==="light") document.body.classList.add("light");
 
 function playSound(){
