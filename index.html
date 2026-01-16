@@ -195,9 +195,9 @@ body.light .toggle-circle {
     <h1>⚡ Dominik Menu ⚡</h1>
     <p>Escolha uma opção</p>
     <div class="buttons">
-        <button class="btn" onclick="openScreen('start')">Iniciar</button>
-        <button class="btn" onclick="openScreen('about')">Sobre</button>
-        <button class="btn" onclick="openScreen('contact')">Contato</button>
+        <button class="btn" onclick="playAndOpen('start')">Iniciar</button>
+        <button class="btn" onclick="playAndOpen('about')">Sobre</button>
+        <button class="btn" onclick="playAndOpen('contact')">Contato</button>
     </div>
 </div>
 
@@ -205,11 +205,11 @@ body.light .toggle-circle {
 <div class="screen" id="start">
     <h1>🚀 Menu Principal</h1>
     <div class="buttons">
-        <button class="btn" onclick="openScreen('games')">Jogos</button>
-        <button class="btn" onclick="openScreen('discord')">Discord Group</button>
+        <button class="btn" onclick="playAndOpen('games')">Jogos</button>
+        <button class="btn" onclick="playAndOpen('discord')">Discord Group</button>
         <button class="btn disabled">Mais em breve...</button>
     </div>
-    <button class="btn" onclick="openScreen('home')">Voltar</button>
+    <button class="btn" onclick="playAndOpen('home')">Voltar</button>
 </div>
 
 <!-- GAMES COM CARDS -->
@@ -217,7 +217,6 @@ body.light .toggle-circle {
     <h1>🎮 Jogos Externos</h1>
     <p>Sites disponíveis: <strong>4</strong></p>
     <div class="card-container">
-        <!-- GARTIC -->
         <div class="card">
             <h2>Gartic</h2>
             <p>🟢 Risco baixo</p>
@@ -225,10 +224,8 @@ body.light .toggle-circle {
             <div class="checkbox">
                 <input type="checkbox" onchange="enableGame(this,'g1')"> Eu entendo os riscos
             </div>
-            <button class="btn disabled" id="g1" disabled onclick="openGame('https://gartic.com.br/')">Acessar</button>
+            <button class="btn disabled" id="g1" disabled onclick="playAndOpenLink('https://gartic.com.br/')">Acessar</button>
         </div>
-
-        <!-- FIREBOY -->
         <div class="card">
             <h2>Fire Boy & Water Girl</h2>
             <p>🟡 Conteúdo externo</p>
@@ -236,10 +233,8 @@ body.light .toggle-circle {
             <div class="checkbox">
                 <input type="checkbox" onchange="enableGame(this,'g2')"> Eu entendo os riscos
             </div>
-            <button class="btn disabled" id="g2" disabled onclick="openGame('https://www.friv.com/z/games/fireboyandwatergirlforest/game.html')">Acessar</button>
+            <button class="btn disabled" id="g2" disabled onclick="playAndOpenLink('https://www.friv.com/z/games/fireboyandwatergirlforest/game.html')">Acessar</button>
         </div>
-
-        <!-- JACKSMITH -->
         <div class="card">
             <h2>JackSmith</h2>
             <p>🟡 Conteúdo externo</p>
@@ -247,10 +242,8 @@ body.light .toggle-circle {
             <div class="checkbox">
                 <input type="checkbox" onchange="enableGame(this,'g3')"> Eu entendo os riscos
             </div>
-            <button class="btn disabled" id="g3" disabled onclick="openGame('https://jacksmithgame.io/')">Acessar</button>
+            <button class="btn disabled" id="g3" disabled onclick="playAndOpenLink('https://jacksmithgame.io/')">Acessar</button>
         </div>
-
-        <!-- CODENAMES -->
         <div class="card">
             <h2>Codenames</h2>
             <p>🔵 Recomendado</p>
@@ -258,11 +251,10 @@ body.light .toggle-circle {
             <div class="checkbox">
                 <input type="checkbox" onchange="enableGame(this,'g4')"> Eu entendo os riscos
             </div>
-            <button class="btn disabled" id="g4" disabled onclick="openGame('https://codenames.game/')">Acessar</button>
+            <button class="btn disabled" id="g4" disabled onclick="playAndOpenLink('https://codenames.game/')">Acessar</button>
         </div>
     </div>
-
-    <button class="btn" style="margin-top:20px;" onclick="openScreen('start')">Voltar</button>
+    <button class="btn" style="margin-top:20px;" onclick="playAndOpen('start')">Voltar</button>
 </div>
 
 <!-- DISCORD -->
@@ -277,31 +269,46 @@ body.light .toggle-circle {
     </div>
 
     <a href="https://discord.gg/9EdGdHRnGE" target="_blank">
-        <button class="btn disabled" id="discordBtn" disabled>Entrar</button>
+        <button class="btn disabled" id="discordBtn" disabled onclick="playSound()">Entrar</button>
     </a>
 
-    <button class="btn" onclick="openScreen('start')">Voltar</button>
+    <button class="btn" onclick="playAndOpen('start')">Voltar</button>
 </div>
 
 <div class="screen" id="about">
     <h1>🧠 Sobre</h1>
     <p>Projeto cyber focado em visual e interação.</p>
-    <button class="btn" onclick="openScreen('home')">Voltar</button>
+    <button class="btn" onclick="playAndOpen('home')">Voltar</button>
 </div>
 
 <div class="screen" id="contact">
     <h1>📡 Contato</h1>
     <p>Discord: sh4dow05__</p>
-    <button class="btn" onclick="openScreen('home')">Voltar</button>
+    <button class="btn" onclick="playAndOpen('home')">Voltar</button>
 </div>
 
 </div>
 
 <script>
 const sound = document.getElementById("themeSound");
+if(localStorage.getItem("theme")==="light") document.body.classList.add("light");
 
-if(localStorage.getItem("theme")==="light"){
-    document.body.classList.add("light");
+function playSound(){
+    sound.currentTime = 0;
+    sound.volume = 0.4;
+    sound.play().catch(()=>{});
+}
+
+function playAndOpen(id){
+    playSound();
+    openScreen(id);
+}
+
+function playAndOpenLink(link){
+    playSound();
+    if(confirm("Você será redirecionado para um site externo. Continuar?")){
+        window.open(link,"_blank");
+    }
 }
 
 function openScreen(id){
@@ -315,23 +322,16 @@ function enableGame(check,id){
     btn.classList.toggle('disabled',!check.checked);
 }
 
-function openGame(link){
-    if(confirm("Você será redirecionado para um site externo. Continuar?")){
-        window.open(link,"_blank");
-    }
-}
-
 function toggleDiscord(){
     const btn=document.getElementById("discordBtn");
     btn.disabled=!btn.disabled;
     btn.classList.toggle("disabled");
+    playSound();
 }
 
 function toggleTheme(){
     document.body.classList.toggle("light");
-    sound.currentTime = 0;
-    sound.volume = 0.4;
-    sound.play().catch(()=>{});
+    playSound();
     localStorage.setItem("theme",document.body.classList.contains("light")?"light":"dark");
 }
 </script>
