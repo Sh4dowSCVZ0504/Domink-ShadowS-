@@ -61,6 +61,7 @@ body {
     text-align: center;
     border-radius: 14px;
     position: relative;
+    transition: border 0.3s;
 }
 
 h1 {
@@ -189,15 +190,17 @@ body.light .toggle-circle {
 <div class="box">
 
 <!-- ENGRENAGEM DE CONFIGURAÇÃO -->
-<div id="configGear" style="position:absolute; top:15px; left:15px; cursor:pointer; font-size:24px; color:var(--neon-main);">
-    ⚙️
-</div>
+<div id="configGear" style="position:absolute; top:15px; left:15px; cursor:pointer; font-size:24px; color:var(--neon-main);">⚙️</div>
 
 <div id="configBox" style="position:absolute; top:50px; left:15px; background:var(--bg-box); border:2px solid var(--neon-main); padding:15px; border-radius:10px; display:none; z-index:1000;">
     <h3 style="margin-top:0; color:var(--neon-main);">Configurações</h3>
     <div style="margin-bottom:10px;">
         <label for="volumeControl">🎵 Volume da Música:</label>
         <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.2">
+    </div>
+    <div style="margin-bottom:10px;">
+        <label>🔊 Música:</label>
+        <button id="musicToggleBtn" style="padding:5px 10px; cursor:pointer;">ON</button>
     </div>
     <div>
         <label>🎨 Cor do Neon:</label>
@@ -212,9 +215,7 @@ body.light .toggle-circle {
     </div>
 </div>
 
-<div class="theme-toggle" onclick="toggleTheme()">
-    <div class="toggle-circle"></div>
-</div>
+<div class="theme-toggle" onclick="toggleTheme()"><div class="toggle-circle"></div></div>
 
 <!-- HOME -->
 <div class="screen active" id="home">
@@ -247,36 +248,28 @@ body.light .toggle-circle {
             <h2>Gartic</h2>
             <p>🟢 Risco baixo</p>
             <p>Desenho e adivinhação online.</p>
-            <div class="checkbox">
-                <input type="checkbox" onchange="enableGame(this,'g1')"> Eu entendo os riscos
-            </div>
+            <div class="checkbox"><input type="checkbox" onchange="enableGame(this,'g1')"> Eu entendo os riscos</div>
             <button class="btn disabled" id="g1" disabled onclick="playAndOpenLink('https://gartic.com.br/')">Acessar</button>
         </div>
         <div class="card">
             <h2>Fire Boy & Water Girl</h2>
             <p>🟡 Conteúdo externo</p>
             <p>Plataforma cooperativa de puzzles.</p>
-            <div class="checkbox">
-                <input type="checkbox" onchange="enableGame(this,'g2')"> Eu entendo os riscos
-            </div>
+            <div class="checkbox"><input type="checkbox" onchange="enableGame(this,'g2')"> Eu entendo os riscos</div>
             <button class="btn disabled" id="g2" disabled onclick="playAndOpenLink('https://www.friv.com/z/games/fireboyandwatergirlforest/game.html')">Acessar</button>
         </div>
         <div class="card">
             <h2>JackSmith</h2>
             <p>🟡 Conteúdo externo</p>
             <p>Criação de armas e batalhas.</p>
-            <div class="checkbox">
-                <input type="checkbox" onchange="enableGame(this,'g3')"> Eu entendo os riscos
-            </div>
+            <div class="checkbox"><input type="checkbox" onchange="enableGame(this,'g3')"> Eu entendo os riscos</div>
             <button class="btn disabled" id="g3" disabled onclick="playAndOpenLink('https://jacksmithgame.io/')">Acessar</button>
         </div>
         <div class="card">
             <h2>Codenames</h2>
             <p>🔵 Recomendado</p>
             <p>Jogo de palavras em equipe.</p>
-            <div class="checkbox">
-                <input type="checkbox" onchange="enableGame(this,'g4')"> Eu entendo os riscos
-            </div>
+            <div class="checkbox"><input type="checkbox" onchange="enableGame(this,'g4')"> Eu entendo os riscos</div>
             <button class="btn disabled" id="g4" disabled onclick="playAndOpenLink('https://codenames.game/')">Acessar</button>
         </div>
     </div>
@@ -289,15 +282,8 @@ body.light .toggle-circle {
     <p><strong>Nome:</strong> Os Guri</p>
     <p><strong>Descrição:</strong> Um server focado em zoeira</p>
     <p><strong>Regras:</strong> Respeito e sem spam</p>
-
-    <div class="checkbox">
-        <input type="checkbox" onclick="toggleDiscord()"> Eu entendo e desejo entrar
-    </div>
-
-    <a href="https://discord.gg/9EdGdHRnGE" target="_blank">
-        <button class="btn disabled" id="discordBtn" disabled onclick="playSound()">Entrar</button>
-    </a>
-
+    <div class="checkbox"><input type="checkbox" onclick="toggleDiscord()"> Eu entendo e desejo entrar</div>
+    <a href="https://discord.gg/9EdGdHRnGE" target="_blank"><button class="btn disabled" id="discordBtn" disabled onclick="playSound()">Entrar</button></a>
     <button class="btn" onclick="playAndOpen('start')">Voltar</button>
 </div>
 
@@ -322,10 +308,10 @@ bgMusic.volume = 0.2; // volume inicial
 
 if(localStorage.getItem("theme")==="light") document.body.classList.add("light");
 
-// AUTOPLAY corrigido: inicia a música na primeira interação
+// AUTOPLAY corrigido: inicia música na primeira interação
 let musicStarted = false;
 function startMusic(){
-    if(!musicStarted){
+    if(!musicStarted && musicEnabled){
         bgMusic.play().catch(()=>{});
         musicStarted = true;
     }
@@ -380,36 +366,63 @@ const configGear = document.getElementById("configGear");
 const configBox = document.getElementById("configBox");
 const volumeControl = document.getElementById("volumeControl");
 const neonColorSelect = document.getElementById("neonColorSelect");
+const musicToggleBtn = document.getElementById("musicToggleBtn");
 
 // Abrir/Fechar menu
 configGear.onclick = ()=>{
     configBox.style.display = configBox.style.display==='block'?'none':'block';
 };
 
-// Controla volume da música
+// Música ON/OFF
+let musicEnabled = localStorage.getItem("musicEnabled");
+if(musicEnabled===null) musicEnabled = "true";
+musicEnabled = (musicEnabled==="true");
+
+function updateMusicState(){
+    if(musicEnabled){
+        bgMusic.play().catch(()=>{});
+        musicToggleBtn.innerText = "ON";
+    } else {
+        bgMusic.pause();
+        musicToggleBtn.innerText = "OFF";
+    }
+    localStorage.setItem("musicEnabled", musicEnabled);
+}
+musicToggleBtn.onclick = ()=>{
+    musicEnabled = !musicEnabled;
+    updateMusicState();
+};
+updateMusicState();
+
+// Volume
 volumeControl.oninput = ()=>{
     bgMusic.volume = volumeControl.value;
     localStorage.setItem("bgVolume", volumeControl.value);
 };
 
-// Controla cor do neon
-neonColorSelect.onchange = ()=>{
-    const val = neonColorSelect.value;
+// Neon color e Rainbow animado
+let rainbowInterval;
+function setNeonColor(val){
+    clearInterval(rainbowInterval);
     if(val==='rainbow'){
-        document.querySelectorAll('.box, .card').forEach(el=>{
-            el.style.borderImage = "linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet) 1";
-            el.style.borderColor = "";
-        });
-        document.documentElement.style.setProperty('--neon-main','');
+        let hue = 0;
+        rainbowInterval = setInterval(()=>{
+            hue += 2;
+            if(hue>360) hue=0;
+            document.querySelectorAll('.box, .card').forEach(el=>{
+                el.style.borderColor = `hsl(${hue}, 100%, 50%)`;
+            });
+        },50);
     } else {
         document.querySelectorAll('.box, .card').forEach(el=>{
-            el.style.borderImage = "";
             el.style.borderColor = val;
         });
-        document.documentElement.style.setProperty('--neon-main', val);
     }
+    document.documentElement.style.setProperty('--neon-main', val==='rainbow'?'':val);
     localStorage.setItem("neonColor", val);
-};
+}
+
+neonColorSelect.onchange = ()=> setNeonColor(neonColorSelect.value);
 
 // Carregar preferências salvas
 window.onload = ()=>{
@@ -421,7 +434,7 @@ window.onload = ()=>{
     const color = localStorage.getItem("neonColor");
     if(color!==null){
         neonColorSelect.value = color;
-        neonColorSelect.onchange();
+        setNeonColor(color);
     }
 };
 </script>
