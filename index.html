@@ -28,41 +28,78 @@ body.light {
     --text-main: #0a0a0a;
 }
 
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
 
 body {
     margin: 0;
     min-height: 100vh;
+    font-family: Arial, sans-serif;
+    color: var(--text-main);
     background: linear-gradient(270deg,var(--bg-1),var(--bg-2),var(--bg-3),var(--bg-4));
     background-size: 600% 600%;
     animation: cyber 14s ease infinite;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-main);
-    font-family: Arial, sans-serif;
-    padding: 20px;
     transition: 0.4s ease;
+    display: flex;
 }
 
+/* ================= ANIMAÇÃO DE FUNDO ================= */
 @keyframes cyber {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
-/* ==================== BOX PRINCIPAL ==================== */
-.box {
-    width: 100%;
-    max-width: 520px;
-    padding: 2rem;
-    border: 2px solid var(--neon-main);
-    box-shadow: 0 0 25px var(--neon-main),0 0 8px var(--neon-red);
+/* ================= SIDEBAR ================= */
+.sidebar {
+    width: 70px;
     background: var(--bg-box);
-    text-align: center;
-    border-radius: 14px;
+    border-right: 2px solid var(--neon-main);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    z-index: 1000;
+}
+
+.sidebar .center-icons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+.sidebar button {
+    background: none;
+    border: none;
+    color: var(--neon-main);
+    font-size: 28px;
+    margin: 15px 0;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.sidebar button:hover {
+    color: #fff;
+    text-shadow: 0 0 15px var(--neon-main);
+}
+
+/* ================= MAIN CONTENT ================= */
+.main {
+    flex: 1;
+    margin-left: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
-    transition: border 0.3s;
+    flex-direction: column;
+    transition: 0.4s ease;
 }
 
 h1 {
@@ -70,13 +107,29 @@ h1 {
     text-shadow: 0 0 8px var(--neon-main);
 }
 
-.buttons {
-    margin-top: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+/* ================= MODALS ================= */
+.modal {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--bg-box);
+    border: 2px solid var(--neon-main);
+    border-radius: 12px;
+    padding: 20px;
+    width: 90%;
+    max-width: 520px;
+    text-align: center;
+    box-shadow: 0 0 25px var(--neon-main);
+    z-index: 500;
 }
 
+.modal.active {
+    display: block;
+}
+
+/* ================= BOTÕES ================= */
 .btn {
     padding: 14px;
     font-size: 1.05rem;
@@ -86,14 +139,15 @@ h1 {
     border: 2px solid var(--neon-main);
     border-radius: 8px;
     cursor: pointer;
-    transition: 0.3s ease;
+    margin: 8px 0;
+    transition: 0.3s;
 }
 
 .btn:hover {
     background: var(--neon-main);
     color: black;
-    box-shadow: 0 0 20px var(--neon-main),0 0 10px var(--neon-red);
     transform: scale(1.05);
+    box-shadow: 0 0 20px var(--neon-main), 0 0 10px var(--neon-red);
 }
 
 .btn.disabled {
@@ -103,300 +157,225 @@ h1 {
     color: gray;
 }
 
-.checkbox {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    justify-content: center;
-    margin: 10px 0;
-    font-size: 0.9rem;
-}
-
-.screen { display: none; }
-.screen.active { display: block; }
-
-.theme-toggle {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 55px;
-    height: 28px;
-    background: linear-gradient(135deg, #222, #444);
-    border-radius: 50px;
-    cursor: pointer;
-    box-shadow: 0 0 10px var(--neon-main);
-}
-
-.toggle-circle {
-    width: 22px;
-    height: 22px;
-    background: white;
-    border-radius: 50%;
-    position: absolute;
-    top: 3px;
-    left: 4px;
-    transition: 0.3s ease;
-}
-
-body.light .toggle-circle {
-    transform: translateX(26px);
-}
-
-/* CARDS */
+/* ================= CARDS ================= */
 .card-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 15px;
-    margin-top:20px;
+    margin-top: 20px;
 }
 
 .card {
     background: var(--bg-box);
     border: 2px solid var(--neon-main);
-    border-radius:12px;
-    padding:15px;
-    box-shadow:0 0 10px var(--neon-main);
-    transition:0.3s;
-    text-align:left;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 0 10px var(--neon-main);
+    text-align: left;
+    transition: 0.3s;
 }
 
 .card:hover {
-    box-shadow:0 0 20px var(--neon-main),0 0 10px var(--neon-red);
+    box-shadow: 0 0 20px var(--neon-main), 0 0 10px var(--neon-red);
     transform: scale(1.03);
 }
 
 .card h2 {
-    margin:0 0 5px 0;
-    font-size:1rem;
-    color:var(--neon-main);
-    text-shadow:0 0 6px var(--neon-main);
+    margin: 0 0 5px 0;
+    font-size: 1rem;
+    color: var(--neon-main);
+    text-shadow: 0 0 6px var(--neon-main);
 }
 
 .card p {
-    font-size:0.85rem;
-    margin:3px 0;
+    font-size: 0.85rem;
+    margin: 3px 0;
 }
 
 .card .checkbox {
-    justify-content:flex-start;
-}
-
-/* ==================== SIDEBAR ==================== */
-.sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 70px;
-    background: var(--bg-box);
-    border-right: 2px solid var(--neon-main);
+    justify-content: flex-start;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    padding-top: 10px;
-    overflow-y:auto;
-    transition: width 0.3s;
-    z-index: 1000;
+    gap: 5px;
 }
 
-.sidebar:hover { width: 220px; }
-
-.sidebar h2 {
-    color: var(--neon-main);
-    font-size:1rem;
-    text-align:center;
-    margin-bottom:10px;
+/* ================= CONFIGURAÇÕES ================= */
+#configBox select, #configBox input[type=range] {
+    margin-left: 10px;
 }
 
-.folder {
-    width: 90%;
-    background: var(--bg-box);
-    border: 2px solid var(--neon-main);
-    border-radius:10px;
-    margin:5px 0;
-    padding:10px;
-    cursor:pointer;
-    transition:0.3s;
-    overflow:hidden;
-}
-
-.folder:hover { box-shadow:0 0 15px var(--neon-main); }
-
-.folder-title { font-weight:bold; color: var(--neon-main); margin-bottom:5px; }
-.folder-content { display:none; flex-direction:column; gap:5px; }
-
-.folder.active .folder-content { display:flex; }
-
-.folder-content button {
-    padding:6px;
-    font-size:0.85rem;
-    color: var(--text-main);
-    background: var(--bg-3);
-    border:none;
-    border-radius:5px;
-    cursor:pointer;
-    text-align:left;
-}
-.folder-content button:hover { background: var(--neon-main); color:#000; }
-
-/* MAIN BOX */
-.main-box { margin-left: 90px; padding: 20px; flex:1; }
 </style>
 </head>
 <body>
 
-<!-- SIDEBAR -->
+<!-- ================= SIDEBAR ================= -->
 <div class="sidebar">
-    <h2>Cyber Menu</h2>
-    <div class="folder" onclick="toggleFolder(this)">
-        <div class="folder-title">Home</div>
-        <div class="folder-content"><button onclick="playAndOpen('home')">Abrir</button></div>
+    <div class="center-icons">
+        <button onclick="openModal('homeModal')">🏠</button>
+        <button onclick="openModal('gamesModal')">🎮</button>
+        <button onclick="openModal('discordModal')">💬</button>
     </div>
-    <div class="folder" onclick="toggleFolder(this)">
-        <div class="folder-title">Jogos 🏆</div>
-        <div class="folder-content"><button onclick="playAndOpen('games')">Abrir Jogos</button></div>
+    <button onclick="openModal('configBox')">⚙️</button>
+</div>
+
+<!-- ================= MAIN CONTENT ================= -->
+<div class="main">
+    <h1>⚡ Dominik Menu ⚡</h1>
+
+    <!-- ================= HOME MODAL ================= -->
+    <div class="modal" id="homeModal">
+        <h2>Home</h2>
+        <p>Escolha uma opção</p>
+        <button class="btn" onclick="closeModal('homeModal')">Voltar</button>
     </div>
-    <div class="folder" onclick="toggleFolder(this)">
-        <div class="folder-title">Configurações ⚙️</div>
-        <div class="folder-content"><button onclick="toggleConfig()">Abrir Configurações</button></div>
+
+    <!-- ================= GAMES MODAL ================= -->
+    <div class="modal" id="gamesModal">
+        <h2>🎮 Jogos Externos</h2>
+        <p>Sites disponíveis: <strong>4</strong></p>
+        <div class="card-container">
+            <div class="card">
+                <h2>Gartic</h2>
+                <p>🟢 Risco baixo</p>
+                <p>Desenho e adivinhação online.</p>
+                <div class="checkbox">
+                    <input type="checkbox" onchange="enableGame(this,'g1')"> Eu entendo os riscos
+                </div>
+                <button class="btn disabled" id="g1" disabled onclick="playAndOpenLink('https://gartic.com.br/')">Acessar</button>
+            </div>
+
+            <div class="card">
+                <h2>Fire Boy & Water Girl</h2>
+                <p>🟡 Conteúdo externo</p>
+                <p>Plataforma cooperativa de puzzles.</p>
+                <div class="checkbox">
+                    <input type="checkbox" onchange="enableGame(this,'g2')"> Eu entendo os riscos
+                </div>
+                <button class="btn disabled" id="g2" disabled onclick="playAndOpenLink('https://www.friv.com/z/games/fireboyandwatergirlforest/game.html')">Acessar</button>
+            </div>
+
+            <div class="card">
+                <h2>JackSmith</h2>
+                <p>🟡 Conteúdo externo</p>
+                <p>Criação de armas e batalhas.</p>
+                <div class="checkbox">
+                    <input type="checkbox" onchange="enableGame(this,'g3')"> Eu entendo os riscos
+                </div>
+                <button class="btn disabled" id="g3" disabled onclick="playAndOpenLink('https://jacksmithgame.io/')">Acessar</button>
+            </div>
+
+            <div class="card">
+                <h2>Codenames</h2>
+                <p>🔵 Recomendado</p>
+                <p>Jogo de palavras em equipe.</p>
+                <div class="checkbox">
+                    <input type="checkbox" onchange="enableGame(this,'g4')"> Eu entendo os riscos
+                </div>
+                <button class="btn disabled" id="g4" disabled onclick="playAndOpenLink('https://codenames.game/')">Acessar</button>
+            </div>
+        </div>
+        <button class="btn" onclick="closeModal('gamesModal')">Voltar</button>
+    </div>
+
+    <!-- ================= DISCORD MODAL ================= -->
+    <div class="modal" id="discordModal">
+        <h2>💬 Discord Group</h2>
+        <p><strong>Nome:</strong> Os Guri</p>
+        <p><strong>Descrição:</strong> Um server focado em zoeira</p>
+        <p><strong>Regras:</strong> Respeito e sem spam</p>
+        <div class="checkbox">
+            <input type="checkbox" onclick="toggleDiscord()"> Eu entendo e desejo entrar
+        </div>
+        <a href="https://discord.gg/9EdGdHRnGE" target="_blank">
+            <button class="btn disabled" id="discordBtn" disabled onclick="playSound()">Entrar</button>
+        </a>
+        <button class="btn" onclick="closeModal('discordModal')">Voltar</button>
+    </div>
+
+    <!-- ================= CONFIGURAÇÕES MODAL ================= -->
+    <div class="modal" id="configBox">
+        <h2>⚙️ Configurações</h2>
+        <div>
+            <label>Tema Dark/Light:</label>
+            <button onclick="toggleTheme()">ON/OFF</button>
+        </div>
+        <div style="margin-top:10px;">
+            <label>🎵 Música:</label>
+            <button id="musicToggleBtn">ON</button>
+            <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.2">
+        </div>
+        <div style="margin-top:10px;">
+            <label>🌈 Cor Neon:</label>
+            <select id="neonColorSelect">
+                <option value="#ff0000">Vermelho</option>
+                <option value="#ff7f00">Laranja</option>
+                <option value="#ffff00">Amarelo</option>
+                <option value="#00ff00">Verde</option>
+                <option value="#0000ff">Azul</option>
+                <option value="#4b0082">Índigo</option>
+                <option value="#8b00ff">Roxo</option>
+                <option value="#ff1493">Rosa</option>
+                <option value="#ffffff">Branco</option>
+                <option value="#000000">Preto</option>
+                <option value="rainbow">Rainbow</option>
+            </select>
+        </div>
+        <button class="btn" onclick="closeModal('configBox')">Fechar</button>
     </div>
 </div>
 
-<!-- BOX PRINCIPAL -->
-<div class="main-box">
-
-<!-- Sons -->
+<!-- ================= SONS ================= -->
 <audio id="themeSound" src="toggle.mp3" preload="auto"></audio>
 <audio id="bgMusic" src="musica.mp3" preload="auto" loop></audio>
 
-<!-- CONFIGURAÇÕES -->
-<div id="configBox" style="display:none; margin-top:20px;">
-    <h3>Configurações</h3>
-    <div>
-        <label>🎨 Tema Dark/Light:</label>
-        <button onclick="toggleTheme()" style="margin-left:10px;">ON/OFF</button>
-    </div>
-    <div style="margin-top:10px;">
-        <label>🎵 Música:</label>
-        <button id="musicToggleBtn">ON</button>
-        <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.2">
-    </div>
-    <div style="margin-top:10px;">
-        <label>🌈 Cor Neon:</label>
-        <select id="neonColorSelect">
-            <option value="#ff0000">Vermelho</option>
-            <option value="#ff7f00">Laranja</option>
-            <option value="#ffff00">Amarelo</option>
-            <option value="#00ff00">Verde</option>
-            <option value="#0000ff">Azul</option>
-            <option value="#4b0082">Índigo</option>
-            <option value="#8b00ff">Roxo</option>
-            <option value="#ff1493">Rosa</option>
-            <option value="#ffffff">Branco</option>
-            <option value="#000000">Preto</option>
-            <option value="rainbow">Rainbow</option>
-        </select>
-    </div>
-</div>
-
-<!-- HOME -->
-<div class="screen active" id="home">
-    <h1>⚡ Dominik Menu ⚡</h1>
-    <p>Escolha uma opção</p>
-</div>
-
-<!-- GAMES -->
-<div class="screen" id="games">
-    <h1>🎮 Jogos Externos</h1>
-    <p>Sites disponíveis: <strong>4</strong></p>
-    <div class="card-container">
-        <div class="card">
-            <h2>Gartic</h2>
-            <p>🟢 Risco baixo</p>
-            <p>Desenho e adivinhação online.</p>
-            <div class="checkbox"><input type="checkbox" onchange="enableGame(this,'g1')"> Eu entendo os riscos</div>
-            <button class="btn disabled" id="g1" disabled onclick="playAndOpenLink('https://gartic.com.br/')">Acessar</button>
-        </div>
-        <div class="card">
-            <h2>Fire Boy & Water Girl</h2>
-            <p>🟡 Conteúdo externo</p>
-            <p>Plataforma cooperativa de puzzles.</p>
-            <div class="checkbox"><input type="checkbox" onchange="enableGame(this,'g2')"> Eu entendo os riscos</div>
-            <button class="btn disabled" id="g2" disabled onclick="playAndOpenLink('https://www.friv.com/z/games/fireboyandwatergirlforest/game.html')">Acessar</button>
-        </div>
-        <div class="card">
-            <h2>JackSmith</h2>
-            <p>🟡 Conteúdo externo</p>
-            <p>Criação de armas e batalhas.</p>
-            <div class="checkbox"><input type="checkbox" onchange="enableGame(this,'g3')"> Eu entendo os riscos</div>
-            <button class="btn disabled" id="g3" disabled onclick="playAndOpenLink('https://jacksmithgame.io/')">Acessar</button>
-        </div>
-        <div class="card">
-            <h2>Codenames</h2>
-            <p>🔵 Recomendado</p>
-            <p>Jogo de palavras em equipe.</p>
-            <div class="checkbox"><input type="checkbox" onchange="enableGame(this,'g4')"> Eu entendo os riscos</div>
-            <button class="btn disabled" id="g4" disabled onclick="playAndOpenLink('https://codenames.game/')">Acessar</button>
-        </div>
-    </div>
-</div>
-
-</div>
-
 <script>
-// SIDEBAR FUNC
-function toggleFolder(folder){ folder.classList.toggle('active'); }
-function toggleConfig(){ const box=document.getElementById("configBox"); box.style.display = box.style.display==='block'?'none':'block'; }
-
-// SONS
-const sound = document.getElementById("themeSound");
-const bgMusic = document.getElementById("bgMusic");
-bgMusic.volume = 0.2;
-
-let musicStarted = false;
-function startMusic(){ if(!musicStarted && musicEnabled){ bgMusic.play().catch(()=>{}); musicStarted=true; } }
-function playSound(){ startMusic(); sound.currentTime=0; sound.volume=0.4; sound.play().catch(()=>{}); }
-
-function playAndOpen(id){ playSound(); openScreen(id); }
-function playAndOpenLink(link){ playSound(); if(confirm("Você será redirecionado para um site externo. Continuar?")) window.open(link,"_blank"); }
-function openScreen(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
-function enableGame(check,id){ const btn=document.getElementById(id); btn.disabled=!check.checked; btn.classList.toggle('disabled',!check.checked); }
-
-// CONFIGURAÇÕES
-let musicEnabled = localStorage.getItem("musicEnabled");
+const sound=document.getElementById("themeSound");
+const bgMusic=document.getElementById("bgMusic");
+bgMusic.volume=0.2;
+let musicEnabled=localStorage.getItem("musicEnabled");
 if(musicEnabled===null) musicEnabled="true";
-musicEnabled = (musicEnabled==="true");
+musicEnabled=(musicEnabled==="true");
 
-const musicToggleBtn = document.getElementById("musicToggleBtn");
-const volumeControl = document.getElementById("volumeControl");
-const neonColorSelect = document.getElementById("neonColorSelect");
+const musicToggleBtn=document.getElementById("musicToggleBtn");
+const volumeControl=document.getElementById("volumeControl");
+const neonColorSelect=document.getElementById("neonColorSelect");
 
-function updateMusicState(){ if(musicEnabled){ bgMusic.play().catch(()=>{}); musicToggleBtn.innerText="ON"; } else{ bgMusic.pause(); musicToggleBtn.innerText="OFF"; } localStorage.setItem("musicEnabled",musicEnabled); }
-musicToggleBtn.onclick = ()=>{ musicEnabled=!musicEnabled; updateMusicState(); };
-updateMusicState();
-volumeControl.oninput = ()=>{ bgMusic.volume=volumeControl.value; localStorage.setItem("bgVolume",volumeControl.value); }
+function playSound(){ bgMusic.play().catch(()=>{}); sound.currentTime=0; sound.volume=0.4; sound.play().catch(()=>{});}
+function playAndOpenLink(link){ if(confirm("Você será redirecionado para um site externo. Continuar?")) window.open(link,"_blank"); }
+function enableGame(check,id){ const btn=document.getElementById(id); btn.disabled=!check.checked; btn.classList.toggle('disabled',!check.checked); }
+function toggleDiscord(){ const btn=document.getElementById("discordBtn"); btn.disabled=!btn.disabled; btn.classList.toggle("disabled"); playSound(); }
 
-function toggleTheme(){ document.body.classList.toggle("light"); playSound(); localStorage.setItem("theme",document.body.classList.contains("light")?"light":"dark"); }
+function openModal(id){ document.getElementById(id).classList.add('active'); playSound();}
+function closeModal(id){ document.getElementById(id).classList.remove('active'); playSound();}
 
+function toggleTheme(){ document.body.classList.toggle("light"); localStorage.setItem("theme",document.body.classList.contains("light")?"light":"dark"); playSound(); }
+musicToggleBtn.onclick=()=>{ musicEnabled=!musicEnabled; if(musicEnabled) bgMusic.play(); else bgMusic.pause(); musicToggleBtn.innerText=musicEnabled?"ON":"OFF"; localStorage.setItem("musicEnabled",musicEnabled);}
+volumeControl.oninput=()=>{ bgMusic.volume=volumeControl.value; localStorage.setItem("bgVolume",volumeControl.value);}
 let rainbowInterval;
 function setNeonColor(val){
     clearInterval(rainbowInterval);
-    if(val==='rainbow'){
-        let hue=0;
-        rainbowInterval=setInterval(()=>{ hue+=2; if(hue>360) hue=0; document.querySelectorAll('.box,.card,.folder').forEach(el=>{ el.style.borderColor=`hsl(${hue},100%,50%)`; }); },50);
-    }else{ document.querySelectorAll('.box,.card,.folder').forEach(el=>{ el.style.borderColor=val; }); }
+    if(val==="rainbow"){
+        let hue=0; rainbowInterval=setInterval(()=>{
+            hue+=2; if(hue>360) hue=0;
+            document.querySelectorAll('.modal,.card,.main,.sidebar').forEach(el=>el.style.borderColor=`hsl(${hue},100%,50%)`);
+        },50);
+    }else{
+        document.querySelectorAll('.modal,.card,.main,.sidebar').forEach(el=>el.style.borderColor=val);
+    }
     document.documentElement.style.setProperty('--neon-main',val==='rainbow'?'':val);
     localStorage.setItem("neonColor",val);
 }
+neonColorSelect.onchange=()=>setNeonColor(neonColorSelect.value);
 
-window.onload = ()=>{
-    const vol=localStorage.getItem("bgVolume");
-    if(vol!==null){ bgMusic.volume=vol; volumeControl.value=vol; }
-    const color=localStorage.getItem("neonColor");
-    if(color!==null){ neonColorSelect.value=color; setNeonColor(color); }
+window.onload=()=>{
     if(localStorage.getItem("theme")==="light") document.body.classList.add("light");
+    const vol=localStorage.getItem("bgVolume");
+    if(vol!==null){ bgMusic.volume=vol; volumeControl.value=vol;}
+    const color=localStorage.getItem("neonColor");
+    if(color!==null){ neonColorSelect.value=color; setNeonColor(color);}
 };
 </script>
 
 </body>
 </html>
+
