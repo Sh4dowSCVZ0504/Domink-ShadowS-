@@ -51,6 +51,7 @@ body {
     100% { background-position: 0% 50%; }
 }
 
+/* ==================== BOX PRINCIPAL ==================== */
 .box {
     width: 100%;
     max-width: 520px;
@@ -179,67 +180,132 @@ body.light .toggle-circle {
 .card .checkbox {
     justify-content:flex-start;
 }
+
+/* ==================== SIDEBAR ==================== */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 70px;
+    background: var(--bg-box);
+    border-right: 2px solid var(--neon-main);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+    overflow-y:auto;
+    transition: width 0.3s;
+    z-index: 1000;
+}
+
+.sidebar:hover { width: 220px; }
+
+.sidebar h2 {
+    color: var(--neon-main);
+    font-size:1rem;
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.folder {
+    width: 90%;
+    background: var(--bg-box);
+    border: 2px solid var(--neon-main);
+    border-radius:10px;
+    margin:5px 0;
+    padding:10px;
+    cursor:pointer;
+    transition:0.3s;
+    overflow:hidden;
+}
+
+.folder:hover { box-shadow:0 0 15px var(--neon-main); }
+
+.folder-title { font-weight:bold; color: var(--neon-main); margin-bottom:5px; }
+.folder-content { display:none; flex-direction:column; gap:5px; }
+
+.folder.active .folder-content { display:flex; }
+
+.folder-content button {
+    padding:6px;
+    font-size:0.85rem;
+    color: var(--text-main);
+    background: var(--bg-3);
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    text-align:left;
+}
+.folder-content button:hover { background: var(--neon-main); color:#000; }
+
+/* MAIN BOX */
+.main-box { margin-left: 90px; padding: 20px; flex:1; }
 </style>
 </head>
 <body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>Cyber Menu</h2>
+    <div class="folder" onclick="toggleFolder(this)">
+        <div class="folder-title">Home</div>
+        <div class="folder-content"><button onclick="playAndOpen('home')">Abrir</button></div>
+    </div>
+    <div class="folder" onclick="toggleFolder(this)">
+        <div class="folder-title">Jogos 🏆</div>
+        <div class="folder-content"><button onclick="playAndOpen('games')">Abrir Jogos</button></div>
+    </div>
+    <div class="folder" onclick="toggleFolder(this)">
+        <div class="folder-title">Configurações ⚙️</div>
+        <div class="folder-content"><button onclick="toggleConfig()">Abrir Configurações</button></div>
+    </div>
+</div>
+
+<!-- BOX PRINCIPAL -->
+<div class="main-box">
 
 <!-- Sons -->
 <audio id="themeSound" src="toggle.mp3" preload="auto"></audio>
 <audio id="bgMusic" src="musica.mp3" preload="auto" loop></audio>
 
-<div class="box">
-
-<!-- ENGRENAGEM DE CONFIGURAÇÃO -->
-<div id="configGear" style="position:absolute; top:15px; left:15px; cursor:pointer; font-size:24px; color:var(--neon-main);">⚙️</div>
-
-<div id="configBox" style="position:absolute; top:50px; left:15px; background:var(--bg-box); border:2px solid var(--neon-main); padding:15px; border-radius:10px; display:none; z-index:1000;">
-    <h3 style="margin-top:0; color:var(--neon-main);">Configurações</h3>
-    <div style="margin-bottom:10px;">
-        <label for="volumeControl">🎵 Volume da Música:</label>
+<!-- CONFIGURAÇÕES -->
+<div id="configBox" style="display:none; margin-top:20px;">
+    <h3>Configurações</h3>
+    <div>
+        <label>🎨 Tema Dark/Light:</label>
+        <button onclick="toggleTheme()" style="margin-left:10px;">ON/OFF</button>
+    </div>
+    <div style="margin-top:10px;">
+        <label>🎵 Música:</label>
+        <button id="musicToggleBtn">ON</button>
         <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.2">
     </div>
-    <div style="margin-bottom:10px;">
-        <label>🔊 Música:</label>
-        <button id="musicToggleBtn" style="padding:5px 10px; cursor:pointer;">ON</button>
-    </div>
-    <div>
-        <label>🎨 Cor do Neon:</label>
+    <div style="margin-top:10px;">
+        <label>🌈 Cor Neon:</label>
         <select id="neonColorSelect">
-            <option value="#ffd700">Amarelo</option>
-            <option value="#ff0033">Vermelho</option>
-            <option value="#8000ff">Roxo</option>
-            <option value="#00b3b3">Azul</option>
+            <option value="#ff0000">Vermelho</option>
+            <option value="#ff7f00">Laranja</option>
+            <option value="#ffff00">Amarelo</option>
+            <option value="#00ff00">Verde</option>
+            <option value="#0000ff">Azul</option>
+            <option value="#4b0082">Índigo</option>
+            <option value="#8b00ff">Roxo</option>
+            <option value="#ff1493">Rosa</option>
+            <option value="#ffffff">Branco</option>
             <option value="#000000">Preto</option>
             <option value="rainbow">Rainbow</option>
         </select>
     </div>
 </div>
 
-<div class="theme-toggle" onclick="toggleTheme()"><div class="toggle-circle"></div></div>
-
 <!-- HOME -->
 <div class="screen active" id="home">
     <h1>⚡ Dominik Menu ⚡</h1>
     <p>Escolha uma opção</p>
-    <div class="buttons">
-        <button class="btn" onclick="playAndOpen('start')">Iniciar</button>
-        <button class="btn" onclick="playAndOpen('about')">Sobre</button>
-        <button class="btn" onclick="playAndOpen('contact')">Contato</button>
-    </div>
 </div>
 
-<!-- START -->
-<div class="screen" id="start">
-    <h1>🚀 Menu Principal</h1>
-    <div class="buttons">
-        <button class="btn" onclick="playAndOpen('games')">Jogos</button>
-        <button class="btn" onclick="playAndOpen('discord')">Discord Group</button>
-        <button class="btn disabled">Mais em breve...</button>
-    </div>
-    <button class="btn" onclick="playAndOpen('home')">Voltar</button>
-</div>
-
-<!-- GAMES COM CARDS -->
+<!-- GAMES -->
 <div class="screen" id="games">
     <h1>🎮 Jogos Externos</h1>
     <p>Sites disponíveis: <strong>4</strong></p>
@@ -273,169 +339,62 @@ body.light .toggle-circle {
             <button class="btn disabled" id="g4" disabled onclick="playAndOpenLink('https://codenames.game/')">Acessar</button>
         </div>
     </div>
-    <button class="btn" style="margin-top:20px;" onclick="playAndOpen('start')">Voltar</button>
-</div>
-
-<!-- DISCORD -->
-<div class="screen" id="discord">
-    <h1>💬 Discord Group</h1>
-    <p><strong>Nome:</strong> Os Guri</p>
-    <p><strong>Descrição:</strong> Um server focado em zoeira</p>
-    <p><strong>Regras:</strong> Respeito e sem spam</p>
-    <div class="checkbox"><input type="checkbox" onclick="toggleDiscord()"> Eu entendo e desejo entrar</div>
-    <a href="https://discord.gg/9EdGdHRnGE" target="_blank"><button class="btn disabled" id="discordBtn" disabled onclick="playSound()">Entrar</button></a>
-    <button class="btn" onclick="playAndOpen('start')">Voltar</button>
-</div>
-
-<div class="screen" id="about">
-    <h1>🧠 Sobre</h1>
-    <p>Projeto cyber focado em visual e interação.</p>
-    <button class="btn" onclick="playAndOpen('home')">Voltar</button>
-</div>
-
-<div class="screen" id="contact">
-    <h1>📡 Contato</h1>
-    <p>Discord: sh4dow05__</p>
-    <button class="btn" onclick="playAndOpen('home')">Voltar</button>
 </div>
 
 </div>
 
 <script>
+// SIDEBAR FUNC
+function toggleFolder(folder){ folder.classList.toggle('active'); }
+function toggleConfig(){ const box=document.getElementById("configBox"); box.style.display = box.style.display==='block'?'none':'block'; }
+
+// SONS
 const sound = document.getElementById("themeSound");
 const bgMusic = document.getElementById("bgMusic");
-bgMusic.volume = 0.2; // volume inicial
+bgMusic.volume = 0.2;
 
-if(localStorage.getItem("theme")==="light") document.body.classList.add("light");
-
-// AUTOPLAY corrigido: inicia música na primeira interação
 let musicStarted = false;
-function startMusic(){
-    if(!musicStarted && musicEnabled){
-        bgMusic.play().catch(()=>{});
-        musicStarted = true;
-    }
-}
+function startMusic(){ if(!musicStarted && musicEnabled){ bgMusic.play().catch(()=>{}); musicStarted=true; } }
+function playSound(){ startMusic(); sound.currentTime=0; sound.volume=0.4; sound.play().catch(()=>{}); }
 
-// Sons de botão
-function playSound(){
-    startMusic();
-    sound.currentTime = 0;
-    sound.volume = 0.4;
-    sound.play().catch(()=>{});
-}
-
-function playAndOpen(id){
-    playSound();
-    openScreen(id);
-}
-
-function playAndOpenLink(link){
-    playSound();
-    if(confirm("Você será redirecionado para um site externo. Continuar?")){
-        window.open(link,"_blank");
-    }
-}
-
-function openScreen(id){
-    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-}
-
-function enableGame(check,id){
-    const btn=document.getElementById(id);
-    btn.disabled=!check.checked;
-    btn.classList.toggle('disabled',!check.checked);
-}
-
-function toggleDiscord(){
-    const btn=document.getElementById("discordBtn");
-    btn.disabled=!btn.disabled;
-    btn.classList.toggle("disabled");
-    playSound();
-}
-
-function toggleTheme(){
-    document.body.classList.toggle("light");
-    playSound();
-    localStorage.setItem("theme",document.body.classList.contains("light")?"light":"dark");
-}
+function playAndOpen(id){ playSound(); openScreen(id); }
+function playAndOpenLink(link){ playSound(); if(confirm("Você será redirecionado para um site externo. Continuar?")) window.open(link,"_blank"); }
+function openScreen(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+function enableGame(check,id){ const btn=document.getElementById(id); btn.disabled=!check.checked; btn.classList.toggle('disabled',!check.checked); }
 
 // CONFIGURAÇÕES
-const configGear = document.getElementById("configGear");
-const configBox = document.getElementById("configBox");
-const volumeControl = document.getElementById("volumeControl");
-const neonColorSelect = document.getElementById("neonColorSelect");
-const musicToggleBtn = document.getElementById("musicToggleBtn");
-
-// Abrir/Fechar menu
-configGear.onclick = ()=>{
-    configBox.style.display = configBox.style.display==='block'?'none':'block';
-};
-
-// Música ON/OFF
 let musicEnabled = localStorage.getItem("musicEnabled");
-if(musicEnabled===null) musicEnabled = "true";
+if(musicEnabled===null) musicEnabled="true";
 musicEnabled = (musicEnabled==="true");
 
-function updateMusicState(){
-    if(musicEnabled){
-        bgMusic.play().catch(()=>{});
-        musicToggleBtn.innerText = "ON";
-    } else {
-        bgMusic.pause();
-        musicToggleBtn.innerText = "OFF";
-    }
-    localStorage.setItem("musicEnabled", musicEnabled);
-}
-musicToggleBtn.onclick = ()=>{
-    musicEnabled = !musicEnabled;
-    updateMusicState();
-};
+const musicToggleBtn = document.getElementById("musicToggleBtn");
+const volumeControl = document.getElementById("volumeControl");
+const neonColorSelect = document.getElementById("neonColorSelect");
+
+function updateMusicState(){ if(musicEnabled){ bgMusic.play().catch(()=>{}); musicToggleBtn.innerText="ON"; } else{ bgMusic.pause(); musicToggleBtn.innerText="OFF"; } localStorage.setItem("musicEnabled",musicEnabled); }
+musicToggleBtn.onclick = ()=>{ musicEnabled=!musicEnabled; updateMusicState(); };
 updateMusicState();
+volumeControl.oninput = ()=>{ bgMusic.volume=volumeControl.value; localStorage.setItem("bgVolume",volumeControl.value); }
 
-// Volume
-volumeControl.oninput = ()=>{
-    bgMusic.volume = volumeControl.value;
-    localStorage.setItem("bgVolume", volumeControl.value);
-};
+function toggleTheme(){ document.body.classList.toggle("light"); playSound(); localStorage.setItem("theme",document.body.classList.contains("light")?"light":"dark"); }
 
-// Neon color e Rainbow animado
 let rainbowInterval;
 function setNeonColor(val){
     clearInterval(rainbowInterval);
     if(val==='rainbow'){
-        let hue = 0;
-        rainbowInterval = setInterval(()=>{
-            hue += 2;
-            if(hue>360) hue=0;
-            document.querySelectorAll('.box, .card').forEach(el=>{
-                el.style.borderColor = `hsl(${hue}, 100%, 50%)`;
-            });
-        },50);
-    } else {
-        document.querySelectorAll('.box, .card').forEach(el=>{
-            el.style.borderColor = val;
-        });
-    }
-    document.documentElement.style.setProperty('--neon-main', val==='rainbow'?'':val);
-    localStorage.setItem("neonColor", val);
+        let hue=0;
+        rainbowInterval=setInterval(()=>{ hue+=2; if(hue>360) hue=0; document.querySelectorAll('.box,.card,.folder').forEach(el=>{ el.style.borderColor=`hsl(${hue},100%,50%)`; }); },50);
+    }else{ document.querySelectorAll('.box,.card,.folder').forEach(el=>{ el.style.borderColor=val; }); }
+    document.documentElement.style.setProperty('--neon-main',val==='rainbow'?'':val);
+    localStorage.setItem("neonColor",val);
 }
 
-neonColorSelect.onchange = ()=> setNeonColor(neonColorSelect.value);
-
-// Carregar preferências salvas
 window.onload = ()=>{
-    const vol = localStorage.getItem("bgVolume");
-    if(vol!==null){
-        bgMusic.volume = vol;
-        volumeControl.value = vol;
-    }
-    const color = localStorage.getItem("neonColor");
-    if(color!==null){
-        neonColorSelect.value = color;
-        setNeonColor(color);
-    }
+    const vol=localStorage.getItem("bgVolume");
+    if(vol!==null){ bgMusic.volume=vol; volumeControl.value=vol; }
+    const color=localStorage.getItem("neonColor");
+    if(color!==null){ neonColorSelect.value=color; setNeonColor(color); }
+    if(localStorage.getItem("theme")==="light") document.body.classList.add("light");
 };
 </script>
 
