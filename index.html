@@ -9,8 +9,8 @@
 :root {
     --bg-dark: #0b0f14;
     --bg-box: rgba(15, 20, 28, 0.85);
-    --neon-main: #00b3b3; /* petróleo neon */
-    --neon-red: #ff0033; /* vermelho sutil */
+    --neon-main: #00b3b3;
+    --neon-red: #ff0033;
     --text-main: #e6e6e6;
 }
 
@@ -108,6 +108,19 @@ p {
     transform: scale(0.95);
 }
 
+.btn.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    border-color: gray;
+    color: gray;
+}
+
+.btn.disabled:hover {
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+}
+
 /* TELAS */
 .screen { display: none; }
 .screen.active { display: block; }
@@ -130,24 +143,42 @@ p {
         </div>
     </div>
 
-    <!-- INICIAR -->
+    <!-- MENU INICIAR -->
     <div class="screen" id="start">
-        <h1>🚀 Sistema Ativo</h1>
-        <p>Interface cyber carregada com sucesso.</p>
-        <button class="btn" onclick="openScreen('home')">Voltar</button>
+        <h1>🚀 Menu Principal</h1>
+        <p>Escolha uma opção abaixo</p>
+
+        <div class="buttons">
+            <button class="btn" onclick="openScreen('games')">Jogos</button>
+
+            <a href="https://discord.gg/9EdGdHRnGE" target="_blank" style="text-decoration:none;">
+                <button class="btn">Discord Group</button>
+            </a>
+
+            <button class="btn disabled">Mais em breve...</button>
+        </div>
+
+        <button class="btn" style="margin-top:20px;" onclick="openScreen('home')">Voltar</button>
+    </div>
+
+    <!-- JOGOS -->
+    <div class="screen" id="games">
+        <h1>🎮 Jogos</h1>
+        <p>Por enquanto fora de serviço.</p>
+        <button class="btn" onclick="openScreen('start')">Voltar</button>
     </div>
 
     <!-- SOBRE -->
     <div class="screen" id="about">
         <h1>🧠 Sobre</h1>
-        <p>Projeto cyber focado em visual, interação e presença digital, e ajuda em dawnloads confiaveis.</p>
+        <p>Projeto cyber focado em visual, interação e presença digital, e ajuda em downloads confiáveis.</p>
         <button class="btn" onclick="openScreen('home')">Voltar</button>
     </div>
 
     <!-- CONTATO -->
     <div class="screen" id="contact">
         <h1>📡 Contato</h1>
-        <p>Entre em contato com este usuario do Discord: sh4dow05__.</p>
+        <p>Entre em contato com este usuário do Discord: sh4dow05__.</p>
         <button class="btn" onclick="openScreen('home')">Voltar</button>
     </div>
 
