@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Site</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(270deg, #00ffff, #7f00ff, #ff0055);
+    background-size: 600% 600%;
+    animation: cyber 10s ease infinite;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+@keyframes cyber {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.box {
+    width: 100%;
+    max-width: 520px;
+    padding: 2rem;
+    border: 2px solid cyan;
+    box-shadow: 0 0 25px cyan;
+    background: rgba(0,0,0,0.65);
+    text-align: center;
+    border-radius: 14px;
+    animation: fade 0.4s ease;
+}
+
+@keyframes fade {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+h1 {
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    margin-bottom: 1rem;
+}
+
+p {
+    font-size: 1.05rem;
+    opacity: 0.9;
+}
+
+/* BOTÕES */
+.buttons {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.btn {
+    padding: 14px;
+    font-size: 1.05rem;
+    letter-spacing: 2px;
+    color: cyan;
+    background: transparent;
+    border: 2px solid cyan;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.btn:hover {
+    background: cyan;
+    color: black;
+    box-shadow: 0 0 20px cyan;
+    transform: scale(1.05);
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+/* TELAS */
+.screen { display: none; }
+.screen.active { display: block; }
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <!-- HOME -->
+    <div class="screen active" id="home">
+        <h1>⚡ The Shadow Site ⚡</h1>
+        <p>Escolha uma opção</p>
+
+        <div class="buttons">
+            <button class="btn" onclick="openScreen('start')">Iniciar</button>
+            <button class="btn" onclick="openScreen('about')">Sobre</button>
+            <button class="btn" onclick="openScreen('contact')">Contato</button>
+        </div>
+    </div>
+
+    <!-- INICIAR -->
+    <div class="screen" id="start">
+        <h1>🚀 Sistema Ativo</h1>
+        <p>Interface cyber carregada com sucesso.</p>
+        <button class="btn" onclick="openScreen('home')">Voltar</button>
+    </div>
+
+    <!-- SOBRE -->
+    <div class="screen" id="about">
+        <h1>🧠 Sobre</h1>
+        <p>Projeto cyber focado em visual, interação e presença digital, e ajuda em dawnloads confiaveis.</p>
+        <button class="btn" onclick="openScreen('home')">Voltar</button>
+    </div>
+
+    <!-- CONTATO -->
+    <div class="screen" id="contact">
+        <h1>📡 Contato</h1>
+        <p>Entre em contato com este usuario do Discord: sh4dow05__.</p>
+        <button class="btn" onclick="openScreen('home')">Voltar</button>
+    </div>
+
+</div>
+
+<script>
+function openScreen(id) {
+    document.querySelectorAll('.screen').forEach(screen => {
+        screen.classList.remove('active');
+    });
+    document.getElementById(id).classList.add('active');
+}
+</script>
+
+</body>
+</html>
