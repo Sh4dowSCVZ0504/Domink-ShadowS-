@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dominik Site</title>
+<title>Cyber Site</title>
 
 <style>
 :root {
@@ -83,6 +83,10 @@ p {
     gap: 15px;
 }
 
+.buttons .btn {
+    width: 100%;
+}
+
 .btn {
     padding: 14px;
     font-size: 1.05rem;
@@ -109,7 +113,7 @@ p {
 }
 
 .btn.disabled {
-    opacity: 0.4;
+    opacity: 0.25;
     cursor: not-allowed;
     border-color: gray;
     color: gray;
@@ -119,6 +123,22 @@ p {
     background: transparent;
     box-shadow: none;
     transform: none;
+}
+
+/* CHECKBOX */
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    margin: 20px 0;
+    font-size: 0.95rem;
+}
+
+.checkbox input {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
 }
 
 /* TELAS */
@@ -133,7 +153,7 @@ p {
 
     <!-- HOME -->
     <div class="screen active" id="home">
-        <h1>⚡ The Shadow Site ⚡</h1>
+        <h1>⚡ Dominik Menu ⚡</h1>
         <p>Escolha uma opção</p>
 
         <div class="buttons">
@@ -143,18 +163,14 @@ p {
         </div>
     </div>
 
-    <!-- MENU INICIAR -->
+    <!-- MENU -->
     <div class="screen" id="start">
         <h1>🚀 Menu Principal</h1>
         <p>Escolha uma opção abaixo</p>
 
         <div class="buttons">
             <button class="btn" onclick="openScreen('games')">Jogos</button>
-
-            <a href="https://discord.gg/9EdGdHRnGE" target="_blank" style="text-decoration:none;">
-                <button class="btn">Discord Group</button>
-            </a>
-
+            <button class="btn" onclick="openScreen('discord')">Discord Group</button>
             <button class="btn disabled">Mais em breve...</button>
         </div>
 
@@ -168,17 +184,35 @@ p {
         <button class="btn" onclick="openScreen('start')">Voltar</button>
     </div>
 
+    <!-- DISCORD -->
+    <div class="screen" id="discord">
+        <h1>💬 Discord Group</h1>
+        <p><strong>Nome:</strong> Os Guri</p>
+        <p><strong>Descrição:</strong> Um server focado em zoeira</p>
+
+        <div class="checkbox">
+            <input type="checkbox" id="confirmDiscord" onclick="toggleDiscord()">
+            <label for="confirmDiscord">Eu entendo e desejo entrar no servidor</label>
+        </div>
+
+        <a href="https://discord.gg/9EdGdHRnGE" target="_blank" style="text-decoration:none;">
+            <button class="btn disabled" id="discordBtn" disabled>Servidor</button>
+        </a>
+
+        <button class="btn" style="margin-top:20px;" onclick="openScreen('start')">Voltar</button>
+    </div>
+
     <!-- SOBRE -->
     <div class="screen" id="about">
         <h1>🧠 Sobre</h1>
-        <p>Projeto cyber focado em visual, interação e presença digital, e ajuda em downloads confiáveis.</p>
+        <p>Projeto cyber focado em visual, interação e presença digital.</p>
         <button class="btn" onclick="openScreen('home')">Voltar</button>
     </div>
 
     <!-- CONTATO -->
     <div class="screen" id="contact">
         <h1>📡 Contato</h1>
-        <p>Entre em contato com este usuário do Discord: sh4dow05__.</p>
+        <p>Discord: sh4dow05__</p>
         <button class="btn" onclick="openScreen('home')">Voltar</button>
     </div>
 
@@ -191,8 +225,20 @@ function openScreen(id) {
     });
     document.getElementById(id).classList.add('active');
 }
+
+function toggleDiscord() {
+    const check = document.getElementById('confirmDiscord');
+    const btn = document.getElementById('discordBtn');
+
+    if (check.checked) {
+        btn.classList.remove('disabled');
+        btn.disabled = false;
+    } else {
+        btn.classList.add('disabled');
+        btn.disabled = true;
+    }
+}
 </script>
 
 </body>
 </html>
-
