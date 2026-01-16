@@ -139,10 +139,50 @@ h1 {
 body.light .toggle-circle {
     transform: translateX(26px);
 }
+
+/* CARDS */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    gap: 15px;
+    margin-top:20px;
+}
+
+.card {
+    background: var(--bg-box);
+    border: 2px solid var(--neon-main);
+    border-radius:12px;
+    padding:15px;
+    box-shadow:0 0 10px var(--neon-main);
+    transition:0.3s;
+    text-align:left;
+}
+
+.card:hover {
+    box-shadow:0 0 20px var(--neon-main),0 0 10px var(--neon-red);
+    transform: scale(1.03);
+}
+
+.card h2 {
+    margin:0 0 5px 0;
+    font-size:1rem;
+    color:var(--neon-main);
+    text-shadow:0 0 6px var(--neon-main);
+}
+
+.card p {
+    font-size:0.85rem;
+    margin:3px 0;
+}
+
+.card .checkbox {
+    justify-content:flex-start;
+}
 </style>
 </head>
-
 <body>
+
+<audio id="themeSound" src="toggle.mp3" preload="auto"></audio>
 
 <div class="box">
 
@@ -172,46 +212,57 @@ body.light .toggle-circle {
     <button class="btn" onclick="openScreen('home')">Voltar</button>
 </div>
 
-<!-- GAMES -->
+<!-- GAMES COM CARDS -->
 <div class="screen" id="games">
     <h1>🎮 Jogos Externos</h1>
     <p>Sites disponíveis: <strong>4</strong></p>
+    <div class="card-container">
+        <!-- GARTIC -->
+        <div class="card">
+            <h2>Gartic</h2>
+            <p>🟢 Risco baixo</p>
+            <p>Desenho e adivinhação online.</p>
+            <div class="checkbox">
+                <input type="checkbox" onchange="enableGame(this,'g1')"> Eu entendo os riscos
+            </div>
+            <button class="btn disabled" id="g1" disabled onclick="openGame('https://gartic.com.br/')">Acessar</button>
+        </div>
 
-    <p><strong>Gartic</strong> — Desenho e adivinhação</p>
-    <p>🟢 Risco baixo</p>
-    <div class="checkbox">
-        <input type="checkbox" onchange="enableGame(this,'g1')"> Eu entendo os riscos
+        <!-- FIREBOY -->
+        <div class="card">
+            <h2>Fire Boy & Water Girl</h2>
+            <p>🟡 Conteúdo externo</p>
+            <p>Plataforma cooperativa de puzzles.</p>
+            <div class="checkbox">
+                <input type="checkbox" onchange="enableGame(this,'g2')"> Eu entendo os riscos
+            </div>
+            <button class="btn disabled" id="g2" disabled onclick="openGame('https://www.friv.com/z/games/fireboyandwatergirlforest/game.html')">Acessar</button>
+        </div>
+
+        <!-- JACKSMITH -->
+        <div class="card">
+            <h2>JackSmith</h2>
+            <p>🟡 Conteúdo externo</p>
+            <p>Criação de armas e batalhas.</p>
+            <div class="checkbox">
+                <input type="checkbox" onchange="enableGame(this,'g3')"> Eu entendo os riscos
+            </div>
+            <button class="btn disabled" id="g3" disabled onclick="openGame('https://jacksmithgame.io/')">Acessar</button>
+        </div>
+
+        <!-- CODENAMES -->
+        <div class="card">
+            <h2>Codenames</h2>
+            <p>🔵 Recomendado</p>
+            <p>Jogo de palavras em equipe.</p>
+            <div class="checkbox">
+                <input type="checkbox" onchange="enableGame(this,'g4')"> Eu entendo os riscos
+            </div>
+            <button class="btn disabled" id="g4" disabled onclick="openGame('https://codenames.game/')">Acessar</button>
+        </div>
     </div>
-    <button class="btn disabled" id="g1" disabled onclick="openGame('https://gartic.com.br/')">Acessar</button>
 
-    <hr>
-
-    <p><strong>Fire Boy & Water Girl</strong> — Plataforma</p>
-    <p>🟡 Conteúdo externo</p>
-    <div class="checkbox">
-        <input type="checkbox" onchange="enableGame(this,'g2')"> Eu entendo os riscos
-    </div>
-    <button class="btn disabled" id="g2" disabled onclick="openGame('https://www.friv.com/z/games/fireboyandwatergirlforest/game.html')">Acessar</button>
-
-    <hr>
-
-    <p><strong>JackSmith</strong> — Criação de armas</p>
-    <p>🟡 Conteúdo externo</p>
-    <div class="checkbox">
-        <input type="checkbox" onchange="enableGame(this,'g3')"> Eu entendo os riscos
-    </div>
-    <button class="btn disabled" id="g3" disabled onclick="openGame('https://jacksmithgame.io/')">Acessar</button>
-
-    <hr>
-
-    <p><strong>Codenames</strong> — Estratégia em equipe</p>
-    <p>🔵 Recomendado</p>
-    <div class="checkbox">
-        <input type="checkbox" onchange="enableGame(this,'g4')"> Eu entendo os riscos
-    </div>
-    <button class="btn disabled" id="g4" disabled onclick="openGame('https://codenames.game/')">Acessar</button>
-
-    <button class="btn" style="margin-top:20px" onclick="openScreen('start')">Voltar</button>
+    <button class="btn" style="margin-top:20px;" onclick="openScreen('start')">Voltar</button>
 </div>
 
 <!-- DISCORD -->
@@ -247,6 +298,12 @@ body.light .toggle-circle {
 </div>
 
 <script>
+const sound = document.getElementById("themeSound");
+
+if(localStorage.getItem("theme")==="light"){
+    document.body.classList.add("light");
+}
+
 function openScreen(id){
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
@@ -272,9 +329,12 @@ function toggleDiscord(){
 
 function toggleTheme(){
     document.body.classList.toggle("light");
+    sound.currentTime = 0;
+    sound.volume = 0.4;
+    sound.play().catch(()=>{});
+    localStorage.setItem("theme",document.body.classList.contains("light")?"light":"dark");
 }
 </script>
 
 </body>
 </html>
-
