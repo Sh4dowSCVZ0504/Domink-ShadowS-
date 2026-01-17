@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cyber Site</title>
-
 <style>
 :root {
     --bg-1: #0b0f14;
@@ -42,6 +41,7 @@ body {
     display: flex;
 }
 
+/* ================= ANIMAÇÃO DE FUNDO ================= */
 @keyframes cyber {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -63,14 +63,13 @@ body {
     bottom: 0;
     z-index: 1000;
 }
-
 .sidebar .center-icons {
     display: flex;
     flex-direction: column;
-    flex: 1;
+    align-items: center;
     justify-content: center;
+    flex: 1;
 }
-
 .sidebar button {
     background: none;
     border: none;
@@ -80,26 +79,37 @@ body {
     cursor: pointer;
     transition: 0.3s, text-shadow 0.6s;
 }
-
 .sidebar button:hover {
     color: #fff;
     text-shadow: 0 0 15px var(--neon-main);
+    animation: pulseNeon 1s infinite;
+}
+@keyframes pulseNeon {
+  0% { text-shadow: 0 0 5px var(--neon-main); }
+  50% { text-shadow: 0 0 20px var(--neon-main); }
+  100% { text-shadow: 0 0 5px var(--neon-main); }
 }
 
-/* ================= MAIN ================= */
+/* ================= MAIN CONTENT ================= */
 .main {
     flex: 1;
     margin-left: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
     position: relative;
+    flex-direction: column;
+    transition: 0.4s ease;
 }
-
 h1 {
     color: var(--neon-main);
     text-shadow: 0 0 8px var(--neon-main);
+    animation: h1Glow 2s infinite;
+}
+@keyframes h1Glow {
+  0% { text-shadow: 0 0 8px var(--neon-main); }
+  50% { text-shadow: 0 0 20px var(--neon-main); }
+  100% { text-shadow: 0 0 8px var(--neon-main); }
 }
 
 /* ================= MODALS ================= */
@@ -118,47 +128,100 @@ h1 {
     text-align: center;
     box-shadow: 0 0 25px var(--neon-main);
     z-index: 500;
+    animation: cardGlow 3s infinite;
 }
-
 .modal.active { display: block; }
 
-/* ================= MINI TERMINAL / LOGS ================= */
-.mini-terminal-right {
-    position: fixed;
-    top: 90px;
-    right: 20px;
-    width: 420px;
-    max-width: calc(100% - 120px);
-    padding: 18px;
-
-    background: #050505;
-    border: 1px solid rgba(0, 255, 120, 0.35);
-    box-shadow: 0 0 30px rgba(0, 255, 120, 0.2);
-
-    font-family: "Courier New", monospace;
-    font-size: 13px;
-    color: #00ff66;
-
-    overflow: hidden;
-    z-index: 900;
+/* ================= BOTÕES ================= */
+.btn {
+    padding: 14px;
+    font-size: 1.05rem;
+    letter-spacing: 2px;
+    color: var(--neon-main);
+    background: transparent;
+    border: 2px solid var(--neon-main);
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 8px 0;
+    transition: 0.3s;
+}
+.btn:hover {
+    background: var(--neon-main);
+    color: black;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--neon-main), 0 0 10px var(--neon-red);
+}
+.btn.disabled {
+    opacity: 0.25;
+    cursor: not-allowed;
+    border-color: gray;
+    color: gray;
 }
 
-.mini-terminal-right pre {
-    margin: 0;
-    white-space: pre-wrap;
-    line-height: 1.4;
-    text-shadow: 0 0 6px rgba(0, 255, 120, 0.6);
+/* ================= CARDS ================= */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+.card {
+    background: var(--bg-box);
+    border: 2px solid var(--neon-main);
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 0 10px var(--neon-main);
+    text-align: left;
+    transition: 0.3s;
+    animation: cardGlow 3s infinite;
+}
+.card:hover {
+    box-shadow: 0 0 20px var(--neon-main), 0 0 10px var(--neon-red);
+    transform: scale(1.03);
+}
+.card h2 {
+    margin: 0 0 5px 0;
+    font-size: 1rem;
+    color: var(--neon-main);
+    text-shadow: 0 0 6px var(--neon-main);
+}
+.card p {
+    font-size: 0.85rem;
+    margin: 3px 0;
+}
+.card .checkbox { justify-content: flex-start; display: flex; align-items: center; gap: 5px; }
+
+/* Badge piscando para recomendados/novos */
+.card p:first-child::after {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-left: 6px;
+    border-radius: 50%;
+    background: #00ff00;
+    animation: pulseBadge 1.2s infinite;
+    vertical-align: middle;
+}
+@keyframes pulseBadge {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
 }
 
-@media (max-width: 768px) {
-    .mini-terminal-right {
-        display: none;
-    }
+/* ================= CONFIGURAÇÕES ================= */
+#configBox select, #configBox input[type=range] { margin-left: 10px; }
+
+/* Glow animado dos cards/modais */
+@keyframes cardGlow {
+  0% { box-shadow: 0 0 10px var(--neon-main); }
+  50% { box-shadow: 0 0 20px var(--neon-main),0 0 10px var(--neon-red); }
+  100% { box-shadow: 0 0 10px var(--neon-main); }
 }
+
 </style>
 </head>
-
 <body>
+
 <!-- ================= SIDEBAR ================= -->
 <div class="sidebar">
     <div class="center-icons">
@@ -169,27 +232,120 @@ h1 {
     <button onclick="openModal('configBox')">⚙️</button>
 </div>
 
-<!-- ================= MAIN ================= -->
+<!-- ================= MAIN CONTENT ================= -->
 <div class="main">
     <h1>⚡ Dominik Menu ⚡</h1>
 
-    <!-- (MODAIS continuam exatamente iguais aos seus) -->
+    <!-- ================= HOME MODAL ================= -->
+    <div class="modal" id="homeModal">
+        <h2>Home</h2>
+        <p>Escolha uma opção</p>
+        <button class="btn" onclick="closeModal('homeModal')">Voltar</button>
+    </div>
+
+    <!-- ================= GAMES MODAL ================= -->
+    <div class="modal" id="gamesModal">
+        <h2>🎮 Jogos Externos</h2>
+        <p>Sites disponíveis: <strong>4</strong></p>
+        <div class="card-container">
+            <div class="card">
+                <h2>Gartic</h2>
+                <p>🟢 Risco baixo</p>
+                <p>Desenho e adivinhação online.</p>
+                <div class="checkbox">
+                    <input type="checkbox" onchange="enableGame(this,'g1')"> Eu entendo os riscos
+                </div>
+                <button class="btn disabled" id="g1" disabled onclick="playAndOpenLink('https://gartic.com.br/')">Acessar</button>
+            </div>
+            <div class="card">
+                <h2>Fire Boy & Water Girl</h2>
+                <p>🟡 Conteúdo externo</p>
+                <p>Plataforma cooperativa de puzzles.</p>
+                <div class="checkbox">
+                    <input type="checkbox" onchange="enableGame(this,'g2')"> Eu entendo os riscos
+                </div>
+                <button class="btn disabled" id="g2" disabled onclick="playAndOpenLink('https://www.friv.com/z/games/fireboyandwatergirlforest/game.html')">Acessar</button>
+            </div>
+            <div class="card">
+                <h2>JackSmith</h2>
+                <p>🟡 Conteúdo externo</p>
+                <p>Criação de armas e batalhas.</p>
+                <div class="checkbox">
+                    <input type="checkbox" onchange="enableGame(this,'g3')"> Eu entendo os riscos
+                </div>
+                <button class="btn disabled" id="g3" disabled onclick="playAndOpenLink('https://jacksmithgame.io/')">Acessar</button>
+            </div>
+            <div class="card">
+                <h2>Codenames</h2>
+                <p>🔵 Recomendado</p>
+                <p>Jogo de palavras em equipe.</p>
+                <div class="checkbox">
+                    <input type="checkbox" onchange="enableGame(this,'g4')"> Eu entendo os riscos
+                </div>
+                <button class="btn disabled" id="g4" disabled onclick="playAndOpenLink('https://codenames.game/')">Acessar</button>
+            </div>
+        </div>
+        <button class="btn" onclick="closeModal('gamesModal')">Voltar</button>
+    </div>
+
+    <!-- ================= DISCORD MODAL ================= -->
+    <div class="modal" id="discordModal">
+        <h2>💬 Discord Group</h2>
+        <p><strong>Nome:</strong> Os Guri</p>
+        <p><strong>Descrição:</strong> Um server focado em zoeira</p>
+        <p><strong>Regras:</strong> Respeito e sem spam</p>
+        <div class="checkbox">
+            <input type="checkbox" onclick="toggleDiscord()"> Eu entendo e desejo entrar
+        </div>
+        <a href="https://discord.gg/9EdGdHRnGE" target="_blank">
+            <button class="btn disabled" id="discordBtn" disabled onclick="playSound()">Entrar</button>
+        </a>
+        <button class="btn" onclick="closeModal('discordModal')">Voltar</button>
+    </div>
+
+    <!-- ================= CONFIGURAÇÕES MODAL ================= -->
+    <div class="modal" id="configBox">
+        <h2>⚙️ Configurações</h2>
+        <div>
+            <label>Tema Dark/Light:</label>
+            <button onclick="toggleTheme()">ON/OFF</button>
+        </div>
+        <div style="margin-top:10px;">
+            <label>🎵 Música:</label>
+            <button id="musicToggleBtn">ON</button>
+            <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.2">
+        </div>
+        <div style="margin-top:10px;">
+            <label>🌈 Cor Neon:</label>
+            <select id="neonColorSelect">
+                <option value="#ff0000">Vermelho</option>
+                <option value="#ff7f00">Laranja</option>
+                <option value="#ffff00">Amarelo</option>
+                <option value="#00ff00">Verde</option>
+                <option value="#0000ff">Azul</option>
+                <option value="#4b0082">Índigo</option>
+                <option value="#8b00ff">Roxo</option>
+                <option value="#ff1493">Rosa</option>
+                <option value="#ffffff">Branco</option>
+                <option value="#000000">Preto</option>
+                <option value="rainbow">Rainbow</option>
+            </select>
+        </div>
+        <button class="btn" onclick="closeModal('configBox')">Fechar</button>
+    </div>
 </div>
 
-<!-- ================= MINI TERMINAL ================= -->
-<div class="mini-terminal-right">
-<pre id="terminalText"></pre>
-</div>
+<!-- ================= SONS ================= -->
+<audio id="themeSound" src="toggle.mp3" preload="auto"></audio>
+<audio id="bgMusic" src="musica.mp3" preload="auto" loop></audio>
+
 <script>
-/* ================= SONS ================= */
 const sound=document.getElementById("themeSound");
 const bgMusic=document.getElementById("bgMusic");
 bgMusic.volume=0.2;
-
 let musicEnabled=localStorage.getItem("musicEnabled");
 if(musicEnabled===null) musicEnabled="true";
 musicEnabled=(musicEnabled==="true");
-
 const musicToggleBtn=document.getElementById("musicToggleBtn");
 const volumeControl=document.getElementById("volumeControl");
 const neonColorSelect=document.getElementById("neonColorSelect");
@@ -200,72 +356,42 @@ function playSound(){
     sound.volume=0.4;
     sound.play().catch(()=>{});
 }
-
 function playAndOpenLink(link){
-    if(confirm("Você será redirecionado para um site externo. Continuar?")){
-        window.open(link,"_blank");
-        logTerminal("EXTERNAL LINK OPENED");
-    }
+    if(confirm("Você será redirecionado para um site externo. Continuar?")) window.open(link,"_blank");
 }
-
 function enableGame(check,id){
     const btn=document.getElementById(id);
     btn.disabled=!check.checked;
     btn.classList.toggle('disabled',!check.checked);
-    logTerminal(check.checked ? "RISK ACCEPTED" : "RISK REVOKED");
 }
-
 function toggleDiscord(){
     const btn=document.getElementById("discordBtn");
     btn.disabled=!btn.disabled;
     btn.classList.toggle("disabled");
     playSound();
-    logTerminal("DISCORD CONFIRMATION TOGGLED");
 }
-
-function openModal(id){
-    document.getElementById(id).classList.add('active');
-    playSound();
-    logTerminal("MODAL OPENED: "+id.toUpperCase());
-}
-
-function closeModal(id){
-    document.getElementById(id).classList.remove('active');
-    playSound();
-    logTerminal("MODAL CLOSED: "+id.toUpperCase());
-}
-
+function openModal(id){ document.getElementById(id).classList.add('active'); playSound();}
+function closeModal(id){ document.getElementById(id).classList.remove('active'); playSound();}
 function toggleTheme(){
     document.body.classList.toggle("light");
-    localStorage.setItem(
-        "theme",
-        document.body.classList.contains("light")?"light":"dark"
-    );
+    localStorage.setItem("theme",document.body.classList.contains("light")?"light":"dark");
     playSound();
-    logTerminal("THEME SWITCHED");
 }
 
-/* ================= MUSICA ================= */
+// ================= MUSICA =================
 musicToggleBtn.onclick=()=>{
     musicEnabled=!musicEnabled;
-    if(musicEnabled){
-        bgMusic.play();
-        logTerminal("BACKGROUND MUSIC ENABLED");
-    } else {
-        bgMusic.pause();
-        logTerminal("BACKGROUND MUSIC DISABLED");
-    }
+    if(musicEnabled) bgMusic.play();
+    else bgMusic.pause();
     musicToggleBtn.innerText=musicEnabled?"ON":"OFF";
     localStorage.setItem("musicEnabled",musicEnabled);
 }
-
 volumeControl.oninput=()=>{
     bgMusic.volume=volumeControl.value;
     localStorage.setItem("bgVolume",volumeControl.value);
-    logTerminal("VOLUME SET TO "+Math.round(volumeControl.value*100)+"%");
 }
 
-/* ================= NEON ================= */
+// ================= NEON =================
 let rainbowInterval;
 function setNeonColor(val){
     clearInterval(rainbowInterval);
@@ -274,85 +400,28 @@ function setNeonColor(val){
         rainbowInterval=setInterval(()=>{
             hue+=2;
             if(hue>360) hue=0;
-            document.querySelectorAll('.modal,.card,.main,.sidebar')
-              .forEach(el=>{
-                el.style.borderColor=`hsl(${hue},100%,50%)`;
-              });
+            document.querySelectorAll('.modal,.card,.main,.sidebar').forEach(el=>{
+                el.style.borderColor=hsl(${hue},100%,50%);
+            });
         },50);
         document.documentElement.style.setProperty('--neon-main','');
-        logTerminal("NEON MODE: RAINBOW");
     }else{
-        document.querySelectorAll('.modal,.card,.main,.sidebar')
-          .forEach(el=>el.style.borderColor=val);
+        document.querySelectorAll('.modal,.card,.main,.sidebar').forEach(el=>el.style.borderColor=val);
         document.documentElement.style.setProperty('--neon-main',val);
-        logTerminal("NEON COLOR SET");
     }
     localStorage.setItem("neonColor",val);
 }
 neonColorSelect.onchange=()=>setNeonColor(neonColorSelect.value);
 
-/* ================= MINI TERMINAL / LOGS ================= */
-const terminalLines = [
-" ██████╗ ██████╗ ███████╗",
-"██╔════╝ ██╔══██╗██╔════╝",
-"██║  ███╗██████╔╝█████╗  ",
-"██║   ██║██╔══██╗██╔══╝  ",
-"╚██████╔╝██║  ██║███████╗",
-" ╚═════╝ ╚═╝  ╚═╝╚══════╝",
-"",
-"v.7.0.0 [SYSTEM BOOT]",
-"",
-"LOADING KERNEL........ OK",
-"LOADING GRAPHICS...... OK",
-"MOUNTING /DEV/SDA1.... OK",
-"INITIALIZING UI....... OK",
-"-------------------------------",
-"SYSTEM READY."
-];
-
-const terminal=document.getElementById("terminalText");
-let tLine=0, tChar=0;
-
-function typeTerminal(){
-    if(!terminal) return;
-    if(tLine<terminalLines.length){
-        if(tChar<terminalLines[tLine].length){
-            terminal.textContent+=terminalLines[tLine][tChar++];
-            setTimeout(typeTerminal,16);
-        }else{
-            terminal.textContent+="\n";
-            tLine++; tChar=0;
-            setTimeout(typeTerminal,120);
-        }
-    }
-}
-
-function logTerminal(text){
-    if(!terminal) return;
-    terminal.textContent+=`\n> ${text}`;
-    terminal.scrollTop=terminal.scrollHeight;
-}
-
-/* ================= INICIALIZAÇÃO ================= */
+// ================= INICIALIZAÇÃO =================
 window.onload=()=>{
-    if(localStorage.getItem("theme")==="light")
-        document.body.classList.add("light");
-
+    if(localStorage.getItem("theme")==="light") document.body.classList.add("light");
     const vol=localStorage.getItem("bgVolume");
-    if(vol!==null){
-        bgMusic.volume=vol;
-        volumeControl.value=vol;
-    }
-
+    if(vol!==null){ bgMusic.volume=vol; volumeControl.value=vol;}
     const color=localStorage.getItem("neonColor");
-    if(color!==null){
-        neonColorSelect.value=color;
-        setNeonColor(color);
-    }
-
+    if(color!==null){ neonColorSelect.value=color; setNeonColor(color);}
     if(musicEnabled) bgMusic.play();
-
-    typeTerminal();
-    logTerminal("SESSION STARTED");
 };
 </script>
+</body>
+</html>
