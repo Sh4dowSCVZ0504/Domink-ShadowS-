@@ -28,9 +28,7 @@ body.light {
     --text-main: #0a0a0a;
 }
 
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
@@ -65,6 +63,7 @@ body {
     top: 0;
     bottom: 0;
     z-index: 1000;
+    transition: border-color 0.3s;
 }
 
 .sidebar .center-icons {
@@ -96,15 +95,55 @@ body {
     margin-left: 70px;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     position: relative;
     flex-direction: column;
     transition: 0.4s ease;
+    padding: 30px 20px;
 }
 
 h1 {
     color: var(--neon-main);
     text-shadow: 0 0 8px var(--neon-main);
+    text-align: center;
+}
+
+/* ================= MINI CARDS ================= */
+.mini-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.mini-card {
+    background: var(--bg-box);
+    border: 2px solid var(--neon-main);
+    border-radius: 10px;
+    padding: 12px;
+    width: 150px;
+    text-align: center;
+    box-shadow: 0 0 10px var(--neon-main);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: default;
+}
+
+.mini-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--neon-main), 0 0 10px var(--neon-red);
+}
+
+.mini-card h3 {
+    margin: 5px 0;
+    color: var(--neon-main);
+    font-size: 1rem;
+    text-shadow: 0 0 5px var(--neon-main);
+}
+
+.mini-card p {
+    font-size: 0.8rem;
+    margin: 3px 0;
 }
 
 /* ================= MODALS ================= */
@@ -123,6 +162,7 @@ h1 {
     text-align: center;
     box-shadow: 0 0 25px var(--neon-main);
     z-index: 500;
+    transition: border-color 0.3s;
 }
 
 .modal.active {
@@ -203,7 +243,6 @@ h1 {
 #configBox select, #configBox input[type=range] {
     margin-left: 10px;
 }
-
 </style>
 </head>
 <body>
@@ -221,6 +260,26 @@ h1 {
 <!-- ================= MAIN CONTENT ================= -->
 <div class="main">
     <h1>⚡ Dominik Menu ⚡</h1>
+
+    <!-- Mini Cards para deixar menu menos seco -->
+    <div class="mini-cards">
+        <div class="mini-card" title="Comece pelo Home">
+            <h3>🏠 Home</h3>
+            <p>Informações iniciais</p>
+        </div>
+        <div class="mini-card" title="Veja os jogos disponíveis">
+            <h3>🎮 Games</h3>
+            <p>Acesse rapidamente</p>
+        </div>
+        <div class="mini-card" title="Entre no Discord">
+            <h3>💬 Discord</h3>
+            <p>Comunidade ativa</p>
+        </div>
+        <div class="mini-card" title="Configurações do site">
+            <h3>⚙️ Config</h3>
+            <p>Personalize a interface</p>
+        </div>
+    </div>
 
     <!-- ================= HOME MODAL ================= -->
     <div class="modal" id="homeModal">
@@ -243,7 +302,6 @@ h1 {
                 </div>
                 <button class="btn disabled" id="g1" disabled onclick="playAndOpenLink('https://gartic.com.br/')">Acessar</button>
             </div>
-
             <div class="card">
                 <h2>Fire Boy & Water Girl</h2>
                 <p>🟡 Conteúdo externo</p>
@@ -253,7 +311,6 @@ h1 {
                 </div>
                 <button class="btn disabled" id="g2" disabled onclick="playAndOpenLink('https://www.friv.com/z/games/fireboyandwatergirlforest/game.html')">Acessar</button>
             </div>
-
             <div class="card">
                 <h2>JackSmith</h2>
                 <p>🟡 Conteúdo externo</p>
@@ -263,7 +320,6 @@ h1 {
                 </div>
                 <button class="btn disabled" id="g3" disabled onclick="playAndOpenLink('https://jacksmithgame.io/')">Acessar</button>
             </div>
-
             <div class="card">
                 <h2>Codenames</h2>
                 <p>🔵 Recomendado</p>
@@ -340,42 +396,97 @@ const musicToggleBtn=document.getElementById("musicToggleBtn");
 const volumeControl=document.getElementById("volumeControl");
 const neonColorSelect=document.getElementById("neonColorSelect");
 
-function playSound(){ bgMusic.play().catch(()=>{}); sound.currentTime=0; sound.volume=0.4; sound.play().catch(()=>{});}
-function playAndOpenLink(link){ if(confirm("Você será redirecionado para um site externo. Continuar?")) window.open(link,"_blank"); }
-function enableGame(check,id){ const btn=document.getElementById(id); btn.disabled=!check.checked; btn.classList.toggle('disabled',!check.checked); }
-function toggleDiscord(){ const btn=document.getElementById("discordBtn"); btn.disabled=!btn.disabled; btn.classList.toggle("disabled"); playSound(); }
+// Função para tocar efeitos
+function playSound(){
+    if(musicEnabled) bgMusic.play().catch(()=>{});
+    sound.currentTime=0;
+    sound.volume=0.4;
+    sound.play().catch(()=>{});
+}
 
-function openModal(id){ document.getElementById(id).classList.add('active'); playSound();}
-function closeModal(id){ document.getElementById(id).classList.remove('active'); playSound();}
+// Links externos
+function playAndOpenLink(link){
+    if(confirm("Você será redirecionado para um site externo. Continuar?")) window.open(link,"_blank");
+}
 
-function toggleTheme(){ document.body.classList.toggle("light"); localStorage.setItem("theme",document.body.classList.contains("light")?"light":"dark"); playSound(); }
-musicToggleBtn.onclick=()=>{ musicEnabled=!musicEnabled; if(musicEnabled) bgMusic.play(); else bgMusic.pause(); musicToggleBtn.innerText=musicEnabled?"ON":"OFF"; localStorage.setItem("musicEnabled",musicEnabled);}
-volumeControl.oninput=()=>{ bgMusic.volume=volumeControl.value; localStorage.setItem("bgVolume",volumeControl.value);}
+// Habilitar botão do game
+function enableGame(check,id){
+    const btn=document.getElementById(id);
+    btn.disabled=!check.checked;
+    btn.classList.toggle('disabled',!check.checked);
+}
+
+// Discord
+function toggleDiscord(){
+    const btn=document.getElementById("discordBtn");
+    btn.disabled=!btn.disabled;
+    btn.classList.toggle("disabled");
+    playSound();
+}
+
+// Modais
+function openModal(id){
+    document.getElementById(id).classList.add('active');
+    playSound();
+}
+function closeModal(id){
+    document.getElementById(id).classList.remove('active');
+    playSound();
+}
+
+// Tema dark/light
+function toggleTheme(){
+    document.body.classList.toggle("light");
+    localStorage.setItem("theme",document.body.classList.contains("light")?"light":"dark");
+    playSound();
+}
+
+// Música ON/OFF
+musicToggleBtn.onclick=()=>{
+    musicEnabled=!musicEnabled;
+    if(musicEnabled){ bgMusic.play().catch(()=>{}); } else { bgMusic.pause(); }
+    musicToggleBtn.innerText=musicEnabled?"ON":"OFF";
+    localStorage.setItem("musicEnabled",musicEnabled);
+}
+
+// Volume
+volumeControl.oninput=()=>{
+    bgMusic.volume=volumeControl.value;
+    localStorage.setItem("bgVolume",volumeControl.value);
+}
+
+// Neon color + rainbow animado
 let rainbowInterval;
 function setNeonColor(val){
     clearInterval(rainbowInterval);
     if(val==="rainbow"){
-        let hue=0; rainbowInterval=setInterval(()=>{
+        let hue=0;
+        rainbowInterval=setInterval(()=>{
             hue+=2; if(hue>360) hue=0;
-            document.querySelectorAll('.modal,.card,.main,.sidebar').forEach(el=>el.style.borderColor=`hsl(${hue},100%,50%)`);
+            document.querySelectorAll('.modal,.card,.main,.sidebar,.mini-card').forEach(el=>{
+                el.style.borderColor=`hsl(${hue},100%,50%)`;
+            });
         },50);
     }else{
-        document.querySelectorAll('.modal,.card,.main,.sidebar').forEach(el=>el.style.borderColor=val);
+        document.querySelectorAll('.modal,.card,.main,.sidebar,.mini-card').forEach(el=>el.style.borderColor=val);
     }
     document.documentElement.style.setProperty('--neon-main',val==='rainbow'?'':val);
     localStorage.setItem("neonColor",val);
 }
 neonColorSelect.onchange=()=>setNeonColor(neonColorSelect.value);
 
+// Carregar preferências
 window.onload=()=>{
     if(localStorage.getItem("theme")==="light") document.body.classList.add("light");
     const vol=localStorage.getItem("bgVolume");
     if(vol!==null){ bgMusic.volume=vol; volumeControl.value=vol;}
     const color=localStorage.getItem("neonColor");
     if(color!==null){ neonColorSelect.value=color; setNeonColor(color);}
+    if(musicEnabled) bgMusic.play().catch(()=>{}); else bgMusic.pause();
 };
 </script>
 
 </body>
 </html>
+
 
