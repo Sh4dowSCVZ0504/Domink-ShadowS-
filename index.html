@@ -27,12 +27,11 @@ body.light {
     --text-main: #0a0a0a;
 }
 
-* { box-sizing: border-box; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    margin: 0;
     min-height: 100vh;
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     color: var(--text-main);
     background: linear-gradient(270deg,var(--bg-1),var(--bg-2),var(--bg-3),var(--bg-4));
     background-size: 600% 600%;
@@ -50,14 +49,14 @@ body {
 
 /* ================= SIDEBAR ================= */
 .sidebar {
-    width: 70px;
+    width: 80px;
     background: var(--bg-box);
     border-right: 2px solid var(--neon-main);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 0;
+    padding: 15px 0;
     position: fixed;
     top: 0;
     bottom: 0;
@@ -74,8 +73,8 @@ body {
     background: none;
     border: none;
     color: var(--neon-main);
-    font-size: 28px;
-    margin: 15px 0;
+    font-size: 32px;
+    margin: 20px 0;
     cursor: pointer;
     transition: 0.3s, text-shadow 0.6s;
 }
@@ -86,29 +85,31 @@ body {
 }
 @keyframes pulseNeon {
   0% { text-shadow: 0 0 5px var(--neon-main); }
-  50% { text-shadow: 0 0 20px var(--neon-main); }
+  50% { text-shadow: 0 0 25px var(--neon-main); }
   100% { text-shadow: 0 0 5px var(--neon-main); }
 }
 
 /* ================= MAIN CONTENT ================= */
 .main {
     flex: 1;
-    margin-left: 70px;
+    margin-left: 80px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+    justify-content: flex-start;
+    align-items: flex-start;
     flex-direction: column;
+    padding: 30px;
     transition: 0.4s ease;
 }
 h1 {
     color: var(--neon-main);
-    text-shadow: 0 0 8px var(--neon-main);
+    text-shadow: 0 0 12px var(--neon-main);
     animation: h1Glow 2s infinite;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
 }
 @keyframes h1Glow {
   0% { text-shadow: 0 0 8px var(--neon-main); }
-  50% { text-shadow: 0 0 20px var(--neon-main); }
+  50% { text-shadow: 0 0 25px var(--neon-main); }
   100% { text-shadow: 0 0 8px var(--neon-main); }
 }
 
@@ -122,11 +123,11 @@ h1 {
     background: var(--bg-box);
     border: 2px solid var(--neon-main);
     border-radius: 12px;
-    padding: 20px;
+    padding: 25px;
     width: 90%;
-    max-width: 520px;
+    max-width: 600px;
     text-align: center;
-    box-shadow: 0 0 25px var(--neon-main);
+    box-shadow: 0 0 30px var(--neon-main);
     z-index: 500;
     animation: cardGlow 3s infinite;
 }
@@ -134,22 +135,22 @@ h1 {
 
 /* ================= BOTÕES ================= */
 .btn {
-    padding: 14px;
+    padding: 14px 18px;
     font-size: 1.05rem;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     color: var(--neon-main);
     background: transparent;
     border: 2px solid var(--neon-main);
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
-    margin: 8px 0;
+    margin: 10px 0;
     transition: 0.3s;
 }
 .btn:hover {
     background: var(--neon-main);
     color: black;
-    transform: scale(1.05);
-    box-shadow: 0 0 20px var(--neon-main), 0 0 10px var(--neon-red);
+    transform: scale(1.08);
+    box-shadow: 0 0 25px var(--neon-main), 0 0 15px var(--neon-red);
 }
 .btn.disabled {
     opacity: 0.25;
@@ -161,42 +162,47 @@ h1 {
 /* ================= CARDS ================= */
 .card-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 15px;
-    margin-top: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 25px;
 }
 .card {
     background: var(--bg-box);
     border: 2px solid var(--neon-main);
-    border-radius: 12px;
-    padding: 15px;
-    box-shadow: 0 0 10px var(--neon-main);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 12px var(--neon-main);
     text-align: left;
-    transition: 0.3s;
+    transition: 0.4s ease;
     animation: cardGlow 3s infinite;
 }
 .card:hover {
-    box-shadow: 0 0 20px var(--neon-main), 0 0 10px var(--neon-red);
-    transform: scale(1.03);
+    box-shadow: 0 0 30px var(--neon-main), 0 0 15px var(--neon-red);
+    transform: scale(1.05);
 }
 .card h2 {
-    margin: 0 0 5px 0;
-    font-size: 1rem;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
     color: var(--neon-main);
-    text-shadow: 0 0 6px var(--neon-main);
+    text-shadow: 0 0 8px var(--neon-main);
 }
 .card p {
-    font-size: 0.85rem;
-    margin: 3px 0;
+    font-size: 0.88rem;
+    margin: 4px 0;
 }
-.card .checkbox { justify-content: flex-start; display: flex; align-items: center; gap: 5px; }
+.card .checkbox {
+    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 
 /* Badge piscando para recomendados/novos */
 .card p:first-child::after {
     content: '';
     display: inline-block;
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     margin-left: 6px;
     border-radius: 50%;
     background: #00ff00;
@@ -205,7 +211,7 @@ h1 {
 }
 @keyframes pulseBadge {
     0%, 100% { opacity: 0.3; transform: scale(0.8); }
-    50% { opacity: 1; transform: scale(1.2); }
+    50% { opacity: 1; transform: scale(1.3); }
 }
 
 /* ================= CONFIGURAÇÕES ================= */
@@ -214,10 +220,9 @@ h1 {
 /* Glow animado dos cards/modais */
 @keyframes cardGlow {
   0% { box-shadow: 0 0 10px var(--neon-main); }
-  50% { box-shadow: 0 0 20px var(--neon-main),0 0 10px var(--neon-red); }
+  50% { box-shadow: 0 0 25px var(--neon-main),0 0 12px var(--neon-red); }
   100% { box-shadow: 0 0 10px var(--neon-main); }
 }
-
 </style>
 </head>
 <body>
@@ -239,15 +244,17 @@ h1 {
     <!-- ================= HOME MODAL ================= -->
     <div class="modal" id="homeModal">
         <h2>Home</h2>
-        <p>Escolha uma opção</p>
+        <p>Escolha uma opção para começar</p>
         <button class="btn" onclick="closeModal('homeModal')">Voltar</button>
     </div>
 
     <!-- ================= GAMES MODAL ================= -->
     <div class="modal" id="gamesModal">
-        <h2>🎮 Jogos Externos</h2>
-        <p>Sites disponíveis: <strong>4</strong></p>
-        <div class="card-container">
+        <h2>🎮 Jogos Externos 
+            <button class="btn" style="font-size:1.2rem; padding:5px 10px; margin-left:10px;" onclick="addMoreGames()">➕</button>
+        </h2>
+        <p>Sites disponíveis: <strong id="gameCount">4</strong></p>
+        <div class="card-container" id="gamesContainer">
             <div class="card">
                 <h2>Gartic</h2>
                 <p>🟢 Risco baixo</p>
@@ -343,15 +350,16 @@ h1 {
 const sound=document.getElementById("themeSound");
 const bgMusic=document.getElementById("bgMusic");
 bgMusic.volume=0.2;
+
 let musicEnabled=localStorage.getItem("musicEnabled");
-if(musicEnabled===null) musicEnabled="true";
+musicEnabled=musicEnabled===null?"true":musicEnabled;
 musicEnabled=(musicEnabled==="true");
+
 const musicToggleBtn=document.getElementById("musicToggleBtn");
 const volumeControl=document.getElementById("volumeControl");
 const neonColorSelect=document.getElementById("neonColorSelect");
 
 function playSound(){
-    if(musicEnabled) bgMusic.play().catch(()=>{});
     sound.currentTime=0;
     sound.volume=0.4;
     sound.play().catch(()=>{});
@@ -401,7 +409,7 @@ function setNeonColor(val){
             hue+=2;
             if(hue>360) hue=0;
             document.querySelectorAll('.modal,.card,.main,.sidebar').forEach(el=>{
-                el.style.borderColor=hsl(${hue},100%,50%);
+                el.style.borderColor=`hsl(${hue},100%,50%)`;
             });
         },50);
         document.documentElement.style.setProperty('--neon-main','');
@@ -412,6 +420,36 @@ function setNeonColor(val){
     localStorage.setItem("neonColor",val);
 }
 neonColorSelect.onchange=()=>setNeonColor(neonColorSelect.value);
+
+// ================= ADICIONAR MAIS JOGOS =================
+let extraGameIndex = 5; // começa após os 4 primeiros
+const extraGames = [
+    {name:"Zombies.io",link:"https://zombs.io/"},
+    {name:"Taming.io",link:"https://taming.io/"},
+    {name:"Diep.io",link:"https://diep.io/"},
+    {name:"Mope.io",link:"https://mope.io/"}
+];
+function addMoreGames() {
+    const gamesContainer = document.getElementById("gamesContainer");
+    extraGames.forEach(game=>{
+        const card = document.createElement("div");
+        card.className="card";
+        const gameId=`g${extraGameIndex}`;
+        card.innerHTML=`
+            <h2>${game.name}</h2>
+            <p>🟡 Conteúdo externo</p>
+            <p>Divirta-se jogando ${game.name}.</p>
+            <div class="checkbox">
+                <input type="checkbox" onchange="enableGame(this,'${gameId}')"> Eu entendo os riscos
+            </div>
+            <button class="btn disabled" id="${gameId}" disabled onclick="playAndOpenLink('${game.link}')">Acessar</button>
+        `;
+        gamesContainer.appendChild(card);
+        extraGameIndex++;
+    });
+    document.getElementById("gameCount").innerText=extraGameIndex-1;
+    playSound();
+}
 
 // ================= INICIALIZAÇÃO =================
 window.onload=()=>{
