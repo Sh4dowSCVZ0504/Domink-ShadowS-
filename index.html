@@ -48,7 +48,7 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* ================= EFEITO DE CÓDIGOS PASSANDO ================= */
+/* ================= MATRIX ================= */
 #matrixCanvas {
     position: fixed;
     top:0; left:0;
@@ -83,15 +83,16 @@ body {
     border: none;
     margin: 20px 0;
     cursor: pointer;
-    transition: 0.3s, text-shadow 0.6s;
-}
-.sidebar button:hover {
-    text-shadow: 0 0 15px var(--neon-main);
-    animation: pulseNeon 1s infinite;
+    transition: 0.3s, filter 0.6s;
 }
 .sidebar button img {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
+    transition: 0.3s, filter 0.6s, transform 0.3s;
+}
+.sidebar button:hover img {
+    filter: drop-shadow(0 0 15px var(--neon-main));
+    transform: scale(1.1);
 }
 
 /* ================= MAIN ================= */
@@ -237,8 +238,12 @@ h1 {
 <!-- ================= SIDEBAR ================= -->
 <div class="sidebar">
     <div class="center-icons">
-        <button onclick="openModal('homeModal')">🏠</button>
-        <button onclick="openModal('gamesModal')">🎮</button>
+        <button onclick="openModal('homeModal')">
+            <img src="home.png" alt="Home">
+        </button>
+        <button onclick="openModal('gamesModal')">
+            <img src="games.png" alt="Games">
+        </button>
         <button onclick="openModal('discordModal')">
             <img src="Discord.png" alt="Discord">
         </button>
@@ -250,14 +255,13 @@ h1 {
 <div class="main">
     <h1>⚡ Dominik Menu ⚡</h1>
 
-    <!-- ================= HOME MODAL ================= -->
+    <!-- ================= MODALS (Home, Games, Discord, Config) ================= -->
     <div class="modal" id="homeModal">
         <h2>Home</h2>
         <p>Escolha uma opção para começar</p>
         <button class="btn" onclick="closeModal('homeModal')">Voltar</button>
     </div>
 
-    <!-- ================= GAMES MODAL ================= -->
     <div class="modal" id="gamesModal">
         <h2>🎮 Jogos Externos</h2>
         <div style="display:flex; align-items:center; justify-content:center; margin-top:5px; gap:15px;">
@@ -270,7 +274,6 @@ h1 {
         <button class="btn" onclick="closeModal('gamesModal')">Voltar</button>
     </div>
 
-    <!-- ================= DISCORD MODAL ================= -->
     <div class="modal" id="discordModal">
         <h2>💬 Discord Group</h2>
         <p><strong>Nome:</strong> Os Guri</p>
@@ -285,7 +288,6 @@ h1 {
         <button class="btn" onclick="closeModal('discordModal')">Voltar</button>
     </div>
 
-    <!-- ================= CONFIGURAÇÕES ================= -->
     <div class="modal" id="configBox">
         <h2>⚙️ Configurações</h2>
         <div>
