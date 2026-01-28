@@ -48,7 +48,7 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* ================= MATRIX ================= */
+/* ================= MATRIX (SERÁ SUBSTITUÍDO PELA NEVE NA PARTE 2) ================= */
 #matrixCanvas {
     position: fixed;
     top:0; left:0;
@@ -188,54 +188,42 @@ h1 {
     box-shadow: 0 0 30px var(--neon-main), 0 0 15px var(--neon-red);
     transform: scale(1.05);
 }
-.card h2 {
-    margin-bottom: 8px;
-    font-size: 1.1rem;
+
+/* ================= ACCORDION (USADO NO AMONG US – CONTINUA NA PARTE 2) ================= */
+.accordion-item {
+    border: 2px solid var(--neon-main);
+    border-radius: 10px;
+    margin: 10px 0;
+    overflow: hidden;
+}
+.accordion-header {
+    padding: 12px;
+    cursor: pointer;
+    background: rgba(0,0,0,0.3);
     color: var(--neon-main);
-    text-shadow: 0 0 8px var(--neon-main);
+    font-weight: bold;
 }
-.card p {
-    font-size: 0.88rem;
-    margin: 4px 0;
+.accordion-content {
+    display: none;
+    padding: 12px;
+    font-size: 0.9rem;
 }
-.card .checkbox {
-    justify-content: flex-start;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.accordion-item.active .accordion-content {
+    display: block;
 }
 
-/* Badge piscando */
-.card p:first-child::after {
-    content: '';
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    margin-left: 6px;
-    border-radius: 50%;
-    background: #00ff00;
-    animation: pulseBadge 1.2s infinite;
-    vertical-align: middle;
-}
-@keyframes pulseBadge {
-    0%, 100% { opacity: 0.3; transform: scale(0.8); }
-    50% { opacity: 1; transform: scale(1.3); }
-}
-
-/* Glow animado dos cards/modais */
-@keyframes cardGlow {
-  0% { box-shadow: 0 0 10px var(--neon-main); }
-  50% { box-shadow: 0 0 25px var(--neon-main),0 0 12px var(--neon-red); }
-  100% { box-shadow: 0 0 10px var(--neon-main); }
-}
+/* ================= PONTO DE CORTE ================= */
+/* TODO O RESTO (AMONG US, NEVE, JS FINAL, FECHAMENTO DO HTML)
+   ESTÁ NA PARTE 2/2 */
 </style>
 </head>
 <body>
 
-<!-- ================= CANVAS MATRIX ================= -->
 <canvas id="matrixCanvas"></canvas>
 
-<!-- ================= SIDEBAR ================= -->
+<!-- CONTINUA NA PARTE 2 -->
+
+<!-- ================= SIDEBAR (BOTÃO AMONG US ADICIONADO) ================= -->
 <div class="sidebar">
     <div class="center-icons">
         <button onclick="openModal('homeModal')">
@@ -243,6 +231,9 @@ h1 {
         </button>
         <button onclick="openModal('gamesModal')">
             <img src="games.png" alt="Games">
+        </button>
+        <button onclick="openModal('amongModal')">
+            <img src="among.png" alt="Among Us">
         </button>
         <button onclick="openModal('discordModal')">
             <img src="Discord.png" alt="Discord">
@@ -253,202 +244,154 @@ h1 {
 
 <!-- ================= MAIN ================= -->
 <div class="main">
-    <h1>⚡ Dominik Menu ⚡</h1>
+<h1>⚡ Dominik Menu ⚡</h1>
 
-    <!-- ================= MODALS (Home, Games, Discord, Config) ================= -->
-    <div class="modal" id="homeModal">
-        <h2>Home</h2>
-        <p>Escolha uma opção para começar</p>
-        <button class="btn" onclick="closeModal('homeModal')">Voltar</button>
+<!-- ================= HOME ================= -->
+<div class="modal" id="homeModal">
+    <h2>Home</h2>
+    <p>Escolha uma opção para começar</p>
+    <button class="btn" onclick="closeModal('homeModal')">Voltar</button>
+</div>
+
+<!-- ================= GAMES ================= -->
+<div class="modal" id="gamesModal">
+    <h2>🎮 Jogos Externos</h2>
+    <div style="display:flex;justify-content:center;gap:15px;">
+        <button class="btn" id="prevPageBtn">◀◀</button>
+        <span id="pageIndicator">Página 1</span>
+        <button class="btn" id="nextPageBtn">▶▶</button>
+    </div>
+    <p>Sites disponíveis: <strong id="gameCount">8</strong></p>
+    <div class="card-container" id="gamesContainer"></div>
+    <button class="btn" onclick="closeModal('gamesModal')">Voltar</button>
+</div>
+
+<!-- ================= AMONG US ================= -->
+<div class="modal" id="amongModal">
+    <h2>🛸 Among Us – Profissões</h2>
+
+    <div class="accordion-item">
+        <div class="accordion-header">🔴 Impostores</div>
+        <div class="accordion-content">
+            <p><strong>Assassino:</strong> Pode matar sem cooldown.</p>
+            <p><strong>Sabotador:</strong> Sabotagens avançadas.</p>
+        </div>
     </div>
 
-    <div class="modal" id="gamesModal">
-        <h2>🎮 Jogos Externos</h2>
-        <div style="display:flex; align-items:center; justify-content:center; margin-top:5px; gap:15px;">
-            <button class="btn" id="prevPageBtn">◀◀</button>
-            <span id="pageIndicator">Página 1/2</span>
-            <button class="btn" id="nextPageBtn">▶▶</button>
+    <div class="accordion-item">
+        <div class="accordion-header">⚪ Neutros</div>
+        <div class="accordion-content">
+            <p><strong>Jester:</strong> Ganha sendo expulso.</p>
+            <p><strong>Arsonist:</strong> Marca todos para vencer.</p>
         </div>
-        <p>Sites disponíveis: <strong id="gameCount">8</strong></p>
-        <div class="card-container" id="gamesContainer"></div>
-        <button class="btn" onclick="closeModal('gamesModal')">Voltar</button>
     </div>
 
-    <div class="modal" id="discordModal">
-        <h2>💬 Discord Group</h2>
-        <p><strong>Nome:</strong> Os Guri</p>
-        <p><strong>Descrição:</strong> Um server focado em zoeira</p>
-        <p><strong>Regras:</strong> Respeito e sem spam</p>
-        <div class="checkbox">
-            <input type="checkbox" onclick="toggleDiscord()"> Eu entendo e desejo entrar
+    <div class="accordion-item">
+        <div class="accordion-header">🟢 Inocentes</div>
+        <div class="accordion-content">
+            <p><strong>Engineer:</strong> Usa dutos.</p>
+            <p><strong>Detective:</strong> Vê pistas.</p>
         </div>
-        <a href="https://discord.gg/9EdGdHRnGE" target="_blank">
-            <button class="btn disabled" id="discordBtn" disabled onclick="playSound()">Entrar</button>
-        </a>
-        <button class="btn" onclick="closeModal('discordModal')">Voltar</button>
     </div>
 
-    <div class="modal" id="configBox">
-        <h2>⚙️ Configurações</h2>
-        <div>
-            <label>Tema Dark/Light:</label>
-            <button onclick="toggleTheme()">ON/OFF</button>
-        </div>
-        <div style="margin-top:10px;">
-            <label>🎵 Música:</label>
-            <button id="musicToggleBtn">ON</button>
-            <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.2">
-        </div>
-        <div style="margin-top:10px;">
-            <label>🌈 Cor Neon:</label>
-            <select id="neonColorSelect">
-                <option value="#ff0000">Vermelho</option>
-                <option value="#ff7f00">Laranja</option>
-                <option value="#ffff00">Amarelo</option>
-                <option value="#00ff00">Verde</option>
-                <option value="#0000ff">Azul</option>
-                <option value="#4b0082">Índigo</option>
-                <option value="#8b00ff">Roxo</option>
-                <option value="#ff1493">Rosa</option>
-                <option value="#ffffff">Branco</option>
-                <option value="#000000">Preto</option>
-                <option value="rainbow">Rainbow</option>
-            </select>
-        </div>
-        <button class="btn" onclick="closeModal('configBox')">Fechar</button>
+    <button class="btn" onclick="closeModal('amongModal')">Voltar</button>
+</div>
+
+<!-- ================= DISCORD ================= -->
+<div class="modal" id="discordModal">
+    <h2>💬 Discord Group</h2>
+    <p><strong>Nome:</strong> Os Guri</p>
+    <p><strong>Descrição:</strong> Um server focado em zoeira</p>
+    <p><strong>Regras:</strong> Respeito e sem spam</p>
+    <div class="checkbox">
+        <input type="checkbox" onclick="toggleDiscord()"> Eu entendo e desejo entrar
     </div>
+    <a href="https://discord.gg/9EdGdHRnGE" target="_blank">
+        <button class="btn disabled" id="discordBtn" disabled>Entrar</button>
+    </a>
+    <button class="btn" onclick="closeModal('discordModal')">Voltar</button>
+</div>
+
+<!-- ================= CONFIG ================= -->
+<div class="modal" id="configBox">
+    <h2>⚙️ Configurações</h2>
+
+    <label>Tema Dark/Light:</label>
+    <button onclick="toggleTheme()">ON/OFF</button>
+
+    <div style="margin-top:10px;">
+        <label>❄️ Quantidade de Neve:</label>
+        <input type="range" min="20" max="300" value="120" id="snowAmount">
+    </div>
+
+    <button class="btn" onclick="closeModal('configBox')">Fechar</button>
+</div>
 </div>
 
 <!-- ================= SONS ================= -->
-<audio id="themeSound" src="toggle.mp3" preload="auto"></audio>
-<audio id="bgMusic" src="musica.mp3" preload="auto" loop></audio>
+<audio id="themeSound" src="toggle.mp3"></audio>
 
 <script>
-// ================= VARIÁVEIS =================
-const sound=document.getElementById("themeSound");
-const bgMusic=document.getElementById("bgMusic");
-bgMusic.volume=0.2;
-let musicEnabled=localStorage.getItem("musicEnabled");
-musicEnabled=musicEnabled===null?"true":musicEnabled;
-musicEnabled=(musicEnabled==="true");
-const musicToggleBtn=document.getElementById("musicToggleBtn");
-const volumeControl=document.getElementById("volumeControl");
-const neonColorSelect=document.getElementById("neonColorSelect");
+// ================= MODALS =================
+function openModal(id){document.getElementById(id).classList.add('active')}
+function closeModal(id){document.getElementById(id).classList.remove('active')}
 
-// ================= SONS =================
-function playSound(){ sound.currentTime=0; sound.volume=0.4; sound.play().catch(()=>{}); }
-function playAndOpenLink(link){ if(confirm("Você será redirecionado para um site externo. Continuar?")) window.open(link,"_blank"); }
-function enableGame(check,id){ const btn=document.getElementById(id); btn.disabled=!check.checked; btn.classList.toggle('disabled',!check.checked); }
-function toggleDiscord(){ const btn=document.getElementById("discordBtn"); btn.disabled=!btn.disabled; btn.classList.toggle("disabled"); playSound(); }
-function openModal(id){ document.getElementById(id).classList.add('active'); playSound();}
-function closeModal(id){ document.getElementById(id).classList.remove('active'); playSound();}
-function toggleTheme(){ document.body.classList.toggle("light"); localStorage.setItem("theme",document.body.classList.contains("light")?"light":"dark"); playSound(); }
+// ================= ACCORDION =================
+document.querySelectorAll(".accordion-header").forEach(h=>{
+    h.onclick=()=>h.parentElement.classList.toggle("active")
+})
 
-// ================= MUSICA =================
-musicToggleBtn.onclick=()=>{ musicEnabled=!musicEnabled; if(musicEnabled) bgMusic.play(); else bgMusic.pause(); musicToggleBtn.innerText=musicEnabled?"ON":"OFF"; localStorage.setItem("musicEnabled",musicEnabled);}
-volumeControl.oninput=()=>{ bgMusic.volume=volumeControl.value; localStorage.setItem("bgVolume",volumeControl.value);}
+// ================= NEVE =================
+const canvas=document.getElementById("matrixCanvas");
+const ctx=canvas.getContext("2d");
+let w=canvas.width=window.innerWidth;
+let h=canvas.height=window.innerHeight;
+let snowflakes=[];
+let snowCount=120;
 
-// ================= NEON =================
-let rainbowInterval;
-function setNeonColor(val){
-    clearInterval(rainbowInterval);
-    if(val==="rainbow"){
-        let hue=0;
-        rainbowInterval=setInterval(()=>{
-            hue+=2;if(hue>360) hue=0;
-            document.querySelectorAll('.modal,.card,.main,.sidebar').forEach(el=>el.style.borderColor=`hsl(${hue},100%,50%)`);
-        },50);
-        document.documentElement.style.setProperty('--neon-main','');
-    }else{
-        document.querySelectorAll('.modal,.card,.main,.sidebar').forEach(el=>el.style.borderColor=val);
-        document.documentElement.style.setProperty('--neon-main',val);
+function createSnow(){
+    snowflakes=[];
+    for(let i=0;i<snowCount;i++){
+        snowflakes.push({
+            x:Math.random()*w,
+            y:Math.random()*h,
+            r:Math.random()*3+1,
+            d:Math.random()*1+0.5
+        })
     }
-    localStorage.setItem("neonColor",val);
 }
-neonColorSelect.onchange=()=>setNeonColor(neonColorSelect.value);
+createSnow();
 
-// ================= JOGOS COM PAGINAÇÃO =================
-const allGames = [
-    {name:"Gartic", link:"https://gartic.com.br/", badge:"🟢 Risco baixo", desc:"Desenho e adivinhação online."},
-    {name:"Fire Boy & Water Girl", link:"https://www.friv.com/z/games/fireboyandwatergirlforest/game.html", badge:"🟡 Conteúdo externo", desc:"Plataforma cooperativa de puzzles."},
-    {name:"JackSmith", link:"https://jacksmithgame.io/", badge:"🟡 Conteúdo externo", desc:"Criação de armas e batalhas."},
-    {name:"Codenames", link:"https://codenames.game/", badge:"🔵 Recomendado", desc:"Jogo de palavras em equipe."},
-    {name:"Zombies.io", link:"https://zombs.io/", badge:"🟡 Conteúdo externo", desc:"Sobreviva aos zumbis online."},
-    {name:"Taming.io", link:"https://taming.io/", badge:"🟡 Conteúdo externo", desc:"Domine criaturas e explore."},
-    {name:"Diep.io", link:"https://diep.io/", badge:"🟡 Conteúdo externo", desc:"Jogo de tanques online."},
-    {name:"Mope.io", link:"https://mope.io/", badge:"🟡 Conteúdo externo", desc:"Sobreviva e evolua no mundo online."}
-];
-
-let currentPage = 1;
-const gamesPerPage = 4;
-const totalPages = Math.ceil(allGames.length / gamesPerPage);
-
-function renderGamesPage(page){
-    const container = document.getElementById("gamesContainer");
-    container.innerHTML = "";
-    const start = (page-1)*gamesPerPage;
-    const end = start+gamesPerPage;
-    allGames.slice(start,end).forEach((game,index)=>{
-        const gameId = `g${start+index+1}`;
-        const card = document.createElement("div");
-        card.className="card";
-        card.innerHTML=`
-            <h2>${game.name}</h2>
-            <p>${game.badge}</p>
-            <p>${game.desc}</p>
-            <div class="checkbox">
-                <input type="checkbox" onchange="enableGame(this,'${gameId}')"> Eu entendo os riscos
-            </div>
-            <button class="btn disabled" id="${gameId}" disabled onclick="playAndOpenLink('${game.link}')">Acessar</button>
-        `;
-        container.appendChild(card);
+function drawSnow(){
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle="white";
+    ctx.beginPath();
+    snowflakes.forEach(f=>{
+        ctx.moveTo(f.x,f.y);
+        ctx.arc(f.x,f.y,f.r,0,Math.PI*2);
     });
-    document.getElementById("pageIndicator").innerText = `Página ${currentPage}/${totalPages}`;
-    document.getElementById("gameCount").innerText = allGames.length;
+    ctx.fill();
+    updateSnow();
 }
 
-document.getElementById("prevPageBtn").onclick=()=>{
-    if(currentPage>1){ currentPage--; renderGamesPage(currentPage); playSound();}
-};
-document.getElementById("nextPageBtn").onclick=()=>{
-    if(currentPage<totalPages){ currentPage++; renderGamesPage(currentPage); playSound();}
-};
-
-// ================= MATRIX CANVAS =================
-const canvas = document.getElementById("matrixCanvas");
-const ctx = canvas.getContext("2d");
-let width = canvas.width = window.innerWidth;
-let height = canvas.height = window.innerHeight;
-const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^%';
-const fontSize = 16;
-const columns = Math.floor(width/fontSize);
-const drops = Array(columns).fill(1);
-function drawMatrix(){
-    ctx.fillStyle='rgba(0,0,0,0.05)';
-    ctx.fillRect(0,0,width,height);
-    ctx.fillStyle='#0F0';
-    ctx.font = fontSize+'px monospace';
-    for(let i=0;i<drops.length;i++){
-        const text = letters[Math.floor(Math.random()*letters.length)];
-        ctx.fillText(text,i*fontSize,drops[i]*fontSize);
-        if(drops[i]*fontSize>height && Math.random()>0.975) drops[i]=0;
-        drops[i]++;
-    }
+function updateSnow(){
+    snowflakes.forEach(f=>{
+        f.y+=f.d;
+        if(f.y>h){f.y=0;f.x=Math.random()*w;}
+    })
 }
-setInterval(drawMatrix,50);
-window.onresize=()=>{ width = canvas.width=window.innerWidth; height=canvas.height=window.innerHeight;};
+setInterval(drawSnow,30);
 
-// ================= INICIALIZAÇÃO =================
-window.addEventListener("load", ()=>{
-    if(localStorage.getItem("theme")==="light") document.body.classList.add("light");
-    const vol=localStorage.getItem("bgVolume");
-    if(vol!==null){ bgMusic.volume=vol; volumeControl.value=vol;}
-    const color=localStorage.getItem("neonColor");
-    if(color!==null){ neonColorSelect.value=color; setNeonColor(color);}
-    if(musicEnabled) bgMusic.play();
-    renderGamesPage(currentPage);
-});
+// ================= CONTROLE NEVE =================
+document.getElementById("snowAmount").oninput=e=>{
+    snowCount=e.target.value;
+    createSnow();
+};
+
+window.onresize=()=>{
+    w=canvas.width=window.innerWidth;
+    h=canvas.height=window.innerHeight;
+};
 </script>
 </body>
 </html>
-
